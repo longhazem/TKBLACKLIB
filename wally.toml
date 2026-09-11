@@ -1,0 +1,7 @@
+[package]
+name = "GITHUB_USER/tokaihub"
+version = "26.8.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]
