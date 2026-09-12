@@ -275,11 +275,11 @@ local Library = {
     --// Scheme \\--
     IsLightTheme = false,
     Scheme = {
-        BackgroundColor = Color3.fromRGB(42, 15, 31),
-        MainColor = Color3.fromRGB(61, 26, 46),
+        BackgroundColor = Color3.fromRGB(14, 14, 16),
+        MainColor = Color3.fromRGB(19, 19, 21),
         AccentColor = Color3.fromRGB(255, 110, 180),
-        OutlineColor = Color3.fromRGB(107, 45, 78),
-        FontColor = Color3.fromRGB(255, 240, 245),
+        OutlineColor = Color3.fromRGB(21, 21, 23),
+        FontColor = Color3.fromRGB(245, 245, 245),
         Font = Font.fromEnum(Enum.Font.GothamSemibold),
 
         RedColor = Color3.fromRGB(255, 50, 50),
@@ -10789,10 +10789,8 @@ function Library:CreateWindow(WindowInfo)
         Library.KeybindFrame.Visible = false
 
         MainFrame = New("TextButton", {
-            BackgroundColor3 = function()
-                return Library:GetBetterColor(Library.Scheme.BackgroundColor, -1)
-            end,
-            BackgroundTransparency = 0.8,
+            BackgroundColor3 = Color3.fromRGB(14, 14, 16),
+            BackgroundTransparency = 0,
             Name = "Main",
             Text = "",
             Position = WindowInfo.Position,
@@ -10807,6 +10805,20 @@ function Library:CreateWindow(WindowInfo)
                 Parent = MainFrame,
             })
         )
+        -- Drop shadow (millennium style)
+        New("ImageLabel", {
+            AnchorPoint            = Vector2.new(0.5, 0.5),
+            BackgroundTransparency = 1,
+            Image                  = "rbxassetid://112971167999062",
+            ImageColor3            = Color3.fromRGB(0, 0, 0),
+            Position               = UDim2.fromScale(0.5, 0.5),
+            ScaleType              = Enum.ScaleType.Slice,
+            Size                   = UDim2.new(1, 75, 1, 75),
+            SliceCenter            = Rect.new(Vector2.new(112, 112), Vector2.new(147, 147)),
+            SliceScale             = 0.75,
+            ZIndex                 = -100,
+            Parent                 = MainFrame,
+        })
         table.insert(
             Library.Scales,
             New("UIScale", {
@@ -10880,10 +10892,19 @@ function Library:CreateWindow(WindowInfo)
 
         --// Top Bar \\-
         TopBar = New("Frame", {
-            BackgroundColor3 = "BackgroundColor",
-            BackgroundTransparency = 0.8,
-            Size = UDim2.new(1, 0, 0, 48),
+            BackgroundColor3 = Color3.fromRGB(14, 14, 16),
+            BackgroundTransparency = 0,
+            Size = UDim2.new(1, 0, 0, 56),
             Parent = MainFrame,
+        })
+        -- Bottom divider line (millennium style)
+        New("Frame", {
+            AnchorPoint = Vector2.new(0, 1),
+            BackgroundColor3 = Color3.fromRGB(21, 21, 23),
+            BorderSizePixel = 0,
+            Position = UDim2.fromScale(0, 1),
+            Size = UDim2.new(1, 0, 0, 1),
+            Parent = TopBar,
         })
         Library:MakeDraggable(MainFrame, TopBar, false, true, WindowSnapConfig)
 
@@ -11122,12 +11143,10 @@ function Library:CreateWindow(WindowInfo)
         --// Bottom Bar \\--
         BottomBackground = New("Frame", {
             AnchorPoint = Vector2.new(0, 1),
-            BackgroundColor3 = function()
-                return Library:GetBetterColor(Library.Scheme.BackgroundColor, 4)
-            end,
-            BackgroundTransparency = 0.8,
+            BackgroundColor3 = Color3.fromRGB(23, 23, 25),
+            BackgroundTransparency = 0,
             Position = UDim2.fromScale(0, 1),
-            Size = UDim2.new(1, 0, 0, 20 + WindowInfo.CornerRadius),
+            Size = UDim2.new(1, 0, 0, 25),
             Parent = MainFrame
         })
         Library:MakeLine(MainFrame, {
@@ -11192,14 +11211,34 @@ function Library:CreateWindow(WindowInfo)
         end
 
         --// Tabs \\--
+        -- Sidebar background frame (millennium side_frame)
+        local SidebarBg = New("Frame", {
+            BackgroundColor3 = Color3.fromRGB(14, 14, 16),
+            BorderSizePixel = 0,
+            Position = UDim2.fromOffset(0, 56),
+            Size = UDim2.new(0, InitialLeftWidth, 1, -56),
+            Parent = MainFrame,
+        })
+        -- Sidebar right divider
+        New("Frame", {
+            AnchorPoint = Vector2.new(1, 0),
+            BackgroundColor3 = Color3.fromRGB(21, 21, 23),
+            BorderSizePixel = 0,
+            Position = UDim2.fromScale(1, 0),
+            Size = UDim2.fromOffset(1, 0) + UDim2.fromScale(0, 1),
+            Parent = SidebarBg,
+        })
+
         Tabs = New("ScrollingFrame", {
             AutomaticCanvasSize = Enum.AutomaticSize.Y,
-            BackgroundColor3 = "BackgroundColor",
-            BackgroundTransparency = 0.8,
+            BackgroundColor3 = Color3.fromRGB(14, 14, 16),
+            BackgroundTransparency = 0,
             CanvasSize = UDim2.fromScale(0, 0),
-            Position = UDim2.fromOffset(0, 49),
-            ScrollBarThickness = 0,
-            Size = UDim2.new(0, InitialLeftWidth, 1, -70),
+            Position = UDim2.fromOffset(0, 56),
+            ScrollBarThickness = 2,
+            ScrollBarImageColor3 = Color3.fromRGB(44, 44, 46),
+            ScrollingDirection = Enum.ScrollingDirection.Y,
+            Size = UDim2.new(0, InitialLeftWidth, 1, -81),
             Parent = MainFrame,
         })
         Library._SidebarScrollFrame = Tabs
@@ -11218,14 +11257,12 @@ function Library:CreateWindow(WindowInfo)
         --// Container \\--
         Container = New("Frame", {
             AnchorPoint = Vector2.new(1, 0),
-            BackgroundColor3 = function()
-                return Library:GetBetterColor(Library.Scheme.BackgroundColor, 1)
-            end,
-            BackgroundTransparency = 0.8,
+            BackgroundColor3 = Color3.fromRGB(14, 14, 16),
+            BackgroundTransparency = 0,
             ClipsDescendants = true,
             Name = "Container",
-            Position = UDim2.new(1, 0, 0, 49),
-            Size = UDim2.new(1, -InitialLeftWidth - 1, 1, -70),
+            Position = UDim2.new(1, 0, 0, 56),
+            Size = UDim2.new(1, -InitialLeftWidth - 1, 1, -81),
             Parent = MainFrame,
         })
         New("UIPadding", {
@@ -13201,16 +13238,24 @@ function Library:CreateWindow(WindowInfo)
             -- Sub-tab bar frame at top of Container (inside TabContainer)
             local TabContainer = Library.Tabs[Name].Container
 
-            -- Chip bar: scrolling horizontal row at top (millennium multi_holder)
+            -- Chip bar: millennium multi_holder - no border, just bg + bottom line
             local ChipBarOuter = New("Frame", {
-                BackgroundColor3       = "MainColor",
-                BackgroundTransparency = 0.6,
+                BackgroundColor3       = Color3.fromRGB(14, 14, 16),
+                BackgroundTransparency = 0,
                 ClipsDescendants       = true,
                 Size                   = UDim2.new(1, 0, 0, 42),
                 ZIndex                 = 5,
                 Parent                 = TabContainer,
             })
-            Library:AddOutline(ChipBarOuter)
+            -- Bottom divider
+            New("Frame", {
+                AnchorPoint      = Vector2.new(0, 1),
+                BackgroundColor3 = Color3.fromRGB(21, 21, 23),
+                BorderSizePixel  = 0,
+                Position         = UDim2.fromScale(0, 1),
+                Size             = UDim2.new(1, 0, 0, 1),
+                Parent           = ChipBarOuter,
+            })
 
             local ChipBar = New("ScrollingFrame", {
                 AutomaticCanvasSize      = Enum.AutomaticSize.X,
@@ -13241,7 +13286,8 @@ function Library:CreateWindow(WindowInfo)
 
             -- Content area below chip bar (fills rest of tab)
             local ContentArea = New("Frame", {
-                BackgroundTransparency = 1,
+                BackgroundColor3       = Color3.fromRGB(14, 14, 16),
+                BackgroundTransparency = 0,
                 Position               = UDim2.new(0, 0, 0, 43),
                 Size                   = UDim2.new(1, 0, 1, -43),
                 Parent                 = TabContainer,
@@ -13334,7 +13380,7 @@ function Library:CreateWindow(WindowInfo)
                     New("UIListLayout", { Padding = UDim.new(0, 6), Parent = BoxHolder })
                     New("UIPadding", { PaddingBottom = UDim.new(0, 4), PaddingTop = UDim.new(0, 4), Parent = BoxHolder })
 
-                    local GbFrame = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundColor3 = "BackgroundColor", BackgroundTransparency = 0.5, Size = UDim2.fromScale(1, 0), Parent = BoxHolder })
+                    local GbFrame = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundColor3 = Color3.fromRGB(17, 17, 19), BackgroundTransparency = 0, Size = UDim2.fromScale(1, 0), Parent = BoxHolder })
                     table.insert(Library.Corners, New("UICorner", { CornerRadius = UDim.new(0, WindowInfo.CornerRadius), Parent = GbFrame }))
                     New("UIListLayout", { Parent = GbFrame })
                     Library:AddOutline(GbFrame)
@@ -13342,7 +13388,7 @@ function Library:CreateWindow(WindowInfo)
                     local Header = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), Parent = GbFrame })
                     New("UIPadding", { PaddingBottom = UDim.new(0, 3), PaddingLeft = UDim.new(0, 8), PaddingRight = UDim.new(0, 8), PaddingTop = UDim.new(0, 3), Parent = Header })
                     New("UIListLayout", { Parent = Header })
-                    New("TextLabel", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), Text = Info2.Name or "", TextSize = 15, TextWrapped = true, TextXAlignment = Enum.TextXAlignment.Left, Parent = Header })
+                    New("TextLabel", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), Text = Info2.Name or "", TextColor3 = Library.Scheme.AccentColor, TextSize = 12, Font = Enum.Font.GothamSemibold, TextWrapped = true, TextXAlignment = Enum.TextXAlignment.Left, Parent = Header })
 
                     local GbContainer = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), Parent = GbFrame })
                     New("UIListLayout", { Padding = UDim.new(0, 4), Parent = GbContainer })
@@ -13361,17 +13407,45 @@ function Library:CreateWindow(WindowInfo)
                 local function Activate()
                     if ActiveSubTab and ActiveSubTab ~= SubTab then
                         ActiveSubTab.Container.Visible = false
-                        TweenService:Create(ActiveSubTab.ChipLabel, Library.TweenInfo, { TextTransparency = 0.4 }):Play()
-                        TweenService:Create(ActiveSubTab.Chip,      Library.TweenInfo, { BackgroundTransparency = 1 }):Play()
-                        TweenService:Create(ActiveSubTab.Accent,    Library.TweenInfo, { BackgroundTransparency = 1 }):Play()
+                        TweenService:Create(ActiveSubTab.ChipLabel, Library.TweenInfo, {
+                            TextColor3 = Color3.fromRGB(140, 140, 144),
+                        }):Play()
+                        TweenService:Create(ActiveSubTab.Chip, Library.TweenInfo, {
+                            BackgroundColor3     = Color3.fromRGB(14, 14, 16),
+                            BackgroundTransparency = 1,
+                        }):Play()
+                        TweenService:Create(ActiveSubTab.Accent, Library.TweenInfo, {
+                            BackgroundTransparency = 1,
+                        }):Play()
                     end
                     ActiveSubTab = SubTab
                     SubPanel.Visible = true
-                    TweenService:Create(ChipLabel, Library.TweenInfo, { TextTransparency = 0 }):Play()
-                    TweenService:Create(Chip,      Library.TweenInfo, { BackgroundTransparency = 0 }):Play()
-                    TweenService:Create(Accent,    Library.TweenInfo, { BackgroundTransparency = 0 }):Play()
+                    -- Active: bg highlight + accent color label + underline
+                    TweenService:Create(ChipLabel, Library.TweenInfo, {
+                        TextColor3 = Color3.fromRGB(245, 245, 245),
+                    }):Play()
+                    TweenService:Create(Chip, Library.TweenInfo, {
+                        BackgroundColor3     = Color3.fromRGB(25, 25, 29),
+                        BackgroundTransparency = 0,
+                    }):Play()
+                    TweenService:Create(Accent, Library.TweenInfo, {
+                        BackgroundColor3     = Library.Scheme.AccentColor,
+                        BackgroundTransparency = 0,
+                    }):Play()
                 end
 
+                Chip.MouseEnter:Connect(function()
+                    if ActiveSubTab ~= SubTab then
+                        TweenService:Create(ChipLabel, Library.TweenInfo, { TextColor3 = Color3.fromRGB(200, 200, 200) }):Play()
+                        TweenService:Create(Chip, Library.TweenInfo, { BackgroundColor3 = Color3.fromRGB(22, 22, 24), BackgroundTransparency = 0 }):Play()
+                    end
+                end)
+                Chip.MouseLeave:Connect(function()
+                    if ActiveSubTab ~= SubTab then
+                        TweenService:Create(ChipLabel, Library.TweenInfo, { TextColor3 = Color3.fromRGB(140, 140, 144) }):Play()
+                        TweenService:Create(Chip, Library.TweenInfo, { BackgroundTransparency = 1 }):Play()
+                    end
+                end)
                 Chip.MouseButton1Click:Connect(Activate)
                 table.insert(SubTabObjects, SubTab)
 
@@ -13662,7 +13736,7 @@ function Library:CreateWindow(WindowInfo)
                 New("UIListLayout", { Padding = UDim.new(0, 6), Parent = BoxHolder })
                 New("UIPadding", { PaddingBottom = UDim.new(0, 4), PaddingTop = UDim.new(0, 4), Parent = BoxHolder })
 
-                local GbFrame = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundColor3 = "BackgroundColor", BackgroundTransparency = 0.5, Size = UDim2.fromScale(1, 0), Parent = BoxHolder })
+                local GbFrame = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundColor3 = Color3.fromRGB(17, 17, 19), BackgroundTransparency = 0, Size = UDim2.fromScale(1, 0), Parent = BoxHolder })
                 table.insert(Library.Corners, New("UICorner", { CornerRadius = UDim.new(0, WindowInfo.CornerRadius), Parent = GbFrame }))
                 New("UIListLayout", { Parent = GbFrame })
                 Library:AddOutline(GbFrame)
