@@ -6550,22 +6550,29 @@ do
 
                 Library:SafeCallback(Button.Func)
 
-                -- TokaiHub: Ripple effect
+                -- TokaiHub: Ripple effect - mouse position relative to button
+                local MousePos    = game:GetService("UserInputService"):GetMouseLocation()
+                local BtnPos      = Button.Base.AbsolutePosition
+                local RelX        = MousePos.X - BtnPos.X
+                local RelY        = MousePos.Y - BtnPos.Y
+                local RippleSize  = math.max(Button.Base.AbsoluteSize.X, Button.Base.AbsoluteSize.Y) * 2.2
+
                 local Ripple = New("Frame", {
-                    AnchorPoint = Vector2.new(0.5, 0.5),
-                    BackgroundColor3 = Library.Scheme.AccentColor,
-                    BackgroundTransparency = 0.6,
-                    Size = UDim2.fromOffset(0, 0),
-                    ZIndex = 10,
-                    Parent = Button.Base,
+                    AnchorPoint          = Vector2.new(0.5, 0.5),
+                    BackgroundColor3     = Library.Scheme.AccentColor,
+                    BackgroundTransparency = 0.55,
+                    ClipsDescendants     = false,
+                    Position             = UDim2.fromOffset(RelX, RelY),
+                    Size                 = UDim2.fromOffset(0, 0),
+                    ZIndex               = Button.Base.ZIndex + 2,
+                    Parent               = Button.Base,
                 })
                 New("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Ripple })
-                local RippleSize = math.max(Button.Base.AbsoluteSize.X, Button.Base.AbsoluteSize.Y) * 2.2
-                TweenService:Create(Ripple, TweenInfo.new(0.45, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                    Size = UDim2.fromOffset(RippleSize, RippleSize),
+                TweenService:Create(Ripple, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                    Size                 = UDim2.fromOffset(RippleSize, RippleSize),
                     BackgroundTransparency = 1,
                 }):Play()
-                game:GetService("Debris"):AddItem(Ripple, 0.5)
+                game:GetService("Debris"):AddItem(Ripple, 0.45)
             end))
         end
 
@@ -10777,6 +10784,7 @@ function Library:CreateWindow(WindowInfo)
             BackgroundColor3 = function()
                 return Library:GetBetterColor(Library.Scheme.BackgroundColor, -1)
             end,
+            BackgroundTransparency = 0.8,
             Name = "Main",
             Text = "",
             Position = WindowInfo.Position,
@@ -10864,7 +10872,8 @@ function Library:CreateWindow(WindowInfo)
 
         --// Top Bar \\-
         TopBar = New("Frame", {
-            BackgroundTransparency = 1,
+            BackgroundColor3 = "BackgroundColor",
+            BackgroundTransparency = 0.8,
             Size = UDim2.new(1, 0, 0, 48),
             Parent = MainFrame,
         })
@@ -10894,14 +10903,40 @@ function Library:CreateWindow(WindowInfo)
                 Library:ApplyLucideIcon(WindowIcon, Icon)
             end
         else
-            WindowIcon = New("TextLabel", {
-                BackgroundTransparency = 1,
-                Size = WindowInfo.IconSize,
-                Text = WindowInfo.Title:sub(1, 1),
-                TextScaled = true,
-                Visible = false,
-                Parent = TitleHolder,
-            })
+            -- TokaiHub: Logo từ Github → workspace executor
+            local LogoURL = "https://raw.githubusercontent.com/longhazem/TKBLACKLIB/refs/heads/main/assets/logo.png"
+            local LogoAsset = ""
+
+            -- Download logo về workspace nếu chưa có
+            pcall(function()
+                if not isfile("TokaiHub/logo.png") then
+                    if not isfolder("TokaiHub") then
+                        makefolder("TokaiHub")
+                    end
+                    writefile("TokaiHub/logo.png", game:HttpGet(LogoURL))
+                end
+                LogoAsset = getcustomasset("TokaiHub/logo.png")
+            end)
+
+            if LogoAsset ~= "" then
+                WindowIcon = New("ImageLabel", {
+                    BackgroundTransparency = 1,
+                    Image = LogoAsset,
+                    ScaleType = Enum.ScaleType.Fit,
+                    Size = WindowInfo.IconSize,
+                    Parent = TitleHolder,
+                })
+            else
+                -- Fallback nếu executor không hỗ trợ getcustomasset
+                WindowIcon = New("TextLabel", {
+                    BackgroundTransparency = 1,
+                    Size = WindowInfo.IconSize,
+                    Text = WindowInfo.Title:sub(1, 1),
+                    TextScaled = true,
+                    Visible = false,
+                    Parent = TitleHolder,
+                })
+            end
         end
 
         local X = Library:GetTextBounds(
@@ -11059,6 +11094,7 @@ function Library:CreateWindow(WindowInfo)
             BackgroundColor3 = function()
                 return Library:GetBetterColor(Library.Scheme.BackgroundColor, 4)
             end,
+            BackgroundTransparency = 0.8,
             Position = UDim2.fromScale(0, 1),
             Size = UDim2.new(1, 0, 0, 20 + WindowInfo.CornerRadius),
             Parent = MainFrame
@@ -11128,6 +11164,7 @@ function Library:CreateWindow(WindowInfo)
         Tabs = New("ScrollingFrame", {
             AutomaticCanvasSize = Enum.AutomaticSize.Y,
             BackgroundColor3 = "BackgroundColor",
+            BackgroundTransparency = 0.8,
             CanvasSize = UDim2.fromScale(0, 0),
             Position = UDim2.fromOffset(0, 49),
             ScrollBarThickness = 0,
@@ -11152,6 +11189,7 @@ function Library:CreateWindow(WindowInfo)
             BackgroundColor3 = function()
                 return Library:GetBetterColor(Library.Scheme.BackgroundColor, 1)
             end,
+            BackgroundTransparency = 0.8,
             ClipsDescendants = true,
             Name = "Container",
             Position = UDim2.new(1, 0, 0, 49),
@@ -12273,6 +12311,7 @@ function Library:CreateWindow(WindowInfo)
             do
                 GroupboxHolder = New("Frame", {
                     BackgroundColor3 = "BackgroundColor",
+                    BackgroundTransparency = 0.5,
                     Size = UDim2.fromScale(1, 0),
                     Parent = BoxHolder,
                 })
@@ -13450,6 +13489,7 @@ function Library:CreateWindow(WindowInfo)
                 local GroupboxHolder = New("Frame", {
                     AutomaticSize = Enum.AutomaticSize.Y,
                     BackgroundColor3 = "BackgroundColor",
+                    BackgroundTransparency = 0.5,
                     Size = UDim2.fromScale(1, 0),
                     Parent = BoxHolder,
                 })
