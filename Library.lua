@@ -11202,6 +11202,7 @@ function Library:CreateWindow(WindowInfo)
             Size = UDim2.new(0, InitialLeftWidth, 1, -70),
             Parent = MainFrame,
         })
+        Library._SidebarScrollFrame = Tabs
         New("UIListLayout", {
             Padding = UDim.new(0, TabButtonsStyle.Gap),
             Parent = Tabs,
@@ -13200,15 +13201,26 @@ function Library:CreateWindow(WindowInfo)
             -- Sub-tab bar frame at top of Container (inside TabContainer)
             local TabContainer = Library.Tabs[Name].Container
 
-            -- Chip bar: horizontal row at top of this tab's content area
-            local ChipBar = New("Frame", {
+            -- Chip bar: scrolling horizontal row at top (millennium multi_holder)
+            local ChipBarOuter = New("Frame", {
                 BackgroundColor3       = "MainColor",
                 BackgroundTransparency = 0.6,
+                ClipsDescendants       = true,
                 Size                   = UDim2.new(1, 0, 0, 42),
                 ZIndex                 = 5,
                 Parent                 = TabContainer,
             })
-            Library:AddOutline(ChipBar)
+            Library:AddOutline(ChipBarOuter)
+
+            local ChipBar = New("ScrollingFrame", {
+                AutomaticCanvasSize      = Enum.AutomaticSize.X,
+                BackgroundTransparency   = 1,
+                CanvasSize               = UDim2.fromScale(0, 0),
+                ScrollBarThickness       = 0,
+                ScrollingDirection       = Enum.ScrollingDirection.X,
+                Size                     = UDim2.fromScale(1, 1),
+                Parent                   = ChipBarOuter,
+            })
             New("UIListLayout", {
                 FillDirection     = Enum.FillDirection.Horizontal,
                 VerticalAlignment = Enum.VerticalAlignment.Center,
@@ -13222,6 +13234,10 @@ function Library:CreateWindow(WindowInfo)
                 PaddingBottom = UDim.new(0, 0),
                 Parent        = ChipBar,
             })
+
+            -- Register horizontal neon fades on this chip bar
+            Library:_RegisterScrollFade(Library:_MakeFade(ChipBarOuter, "x", "start"), "x", "start", function() return ChipBar end)
+            Library:_RegisterScrollFade(Library:_MakeFade(ChipBarOuter, "x", "end"),   "x", "end",   function() return ChipBar end)
 
             -- Content area below chip bar (fills rest of tab)
             local ContentArea = New("Frame", {
@@ -15691,6 +15707,228 @@ Library:GiveSignal(Players.PlayerRemoving:Connect(OnPlayerChange))
 
 Library:GiveSignal(Teams.ChildAdded:Connect(OnTeamChange))
 Library:GiveSignal(Teams.ChildRemoved:Connect(OnTeamChange))
+
+
+-- ── TokaiHub: Millennium-style Neon Scroll Fade System ────────────────────────
+-- Ports millennium's _make_fade / _register_scroll_fade / _start_scroll_fade_loop
+-- Shows accent-colored gradient glow at edges of scrollable areas
+
+Library._ScrollFades     = {}
+Library._ScrollFadeItems = setmetatable({}, { __mode = "k" })
+Library._ScrollFadeConn  = nil
+
+function Library:_MakeFade(Parent, Axis, Edge)
+    local Horizontal = Axis == "x"
+    local AtStart    = Edge == "start"
+    local Anchor, Pos, Size, FadePos, FadeAnchor, FadeRotation, FadeFull, FadeHidden
+
+    if Horizontal then
+        Size         = UDim2.fromOffset(24, 0) + UDim2.fromScale(0, 1)
+        FadeFull     = UDim2.fromScale(1, 1)
+        FadeHidden   = UDim2.new(1, 0, 0, 0)
+        FadeAnchor   = Vector2.new(0, 0.5)
+        FadePos      = UDim2.fromScale(0, 0.5)
+        FadeRotation = AtStart and 0 or 180
+        if AtStart then
+            Anchor = Vector2.new(0, 0)
+            Pos    = UDim2.fromOffset(0, 0)
+        else
+            Anchor = Vector2.new(1, 0)
+            Pos    = UDim2.fromScale(1, 0)
+        end
+    else
+        Size         = UDim2.new(1, 0, 0, 20)
+        FadeFull     = UDim2.fromScale(1, 1)
+        FadeHidden   = UDim2.new(0, 0, 1, 0)
+        FadeAnchor   = Vector2.new(0.5, 0)
+        FadePos      = UDim2.fromScale(0.5, 0)
+        FadeRotation = AtStart and 90 or 270
+        if AtStart then
+            Anchor = Vector2.new(0, 0)
+            Pos    = UDim2.fromOffset(0, 0)
+        else
+            Anchor = Vector2.new(0, 1)
+            Pos    = UDim2.fromScale(0, 1)
+        end
+    end
+
+    -- CanvasGroup for smooth fade in/out
+    local Group
+    pcall(function()
+        Group = New("CanvasGroup", {
+            AnchorPoint      = Anchor,
+            BackgroundTransparency = 1,
+            GroupTransparency = 1,
+            Position         = Pos,
+            Size             = Size,
+            Visible          = false,
+            ZIndex           = 8,
+            Active           = false,
+            Parent           = Parent,
+        })
+    end)
+    if not Group then
+        Group = New("Frame", {
+            AnchorPoint      = Anchor,
+            BackgroundTransparency = 1,
+            Position         = Pos,
+            Size             = Size,
+            Visible          = false,
+            ZIndex           = 8,
+            Active           = false,
+            Parent           = Parent,
+        })
+    end
+
+    -- Gradient fade frame (accent color)
+    local Fade = New("Frame", {
+        AnchorPoint          = FadeAnchor,
+        BackgroundColor3     = Library.Scheme.AccentColor,
+        BackgroundTransparency = 0.82,
+        BorderSizePixel      = 0,
+        Position             = FadePos,
+        Size                 = FadeHidden,
+        ZIndex               = 8,
+        Active               = false,
+        Parent               = Group,
+    })
+    New("UIGradient", {
+        Rotation     = FadeRotation,
+        Transparency = NumberSequence.new({
+            NumberSequenceKeypoint.new(0, 0),
+            NumberSequenceKeypoint.new(0.4, 0.55),
+            NumberSequenceKeypoint.new(1, 1),
+        }),
+        Parent = Fade,
+    })
+
+    Library._ScrollFadeItems[Group] = {
+        Fade       = Fade,
+        FadeFull   = FadeFull,
+        FadeHidden = FadeHidden,
+    }
+
+    return Group
+end
+
+function Library:_RegisterScrollFade(Frame, Axis, Edge, Getter)
+    if not Frame then return end
+    local Items = Library._ScrollFadeItems[Frame]
+    if Items and Items.Fade then
+        Items.Fade.Size = Items.FadeHidden
+    end
+    pcall(function() Frame.GroupTransparency = 1 end)
+    Frame.Visible = false
+    Library._ScrollFades[#Library._ScrollFades + 1] = {
+        Frame    = Frame,
+        Items    = Items,
+        Axis     = Axis,
+        Edge     = Edge,
+        Get      = Getter,
+        Active   = false,
+        AnimId   = 0,
+    }
+end
+
+local function EdgeActive(Scroll, Axis, Edge)
+    if typeof(Scroll) ~= "Instance" or not Scroll.Parent then return false end
+    local Pos    = Scroll.CanvasPosition
+    local Canvas = Scroll.AbsoluteCanvasSize
+    local Window = Scroll.AbsoluteWindowSize
+    if Axis == "x" then
+        local MaxX = Canvas.X - Window.X
+        if MaxX <= 1 then return false end
+        return Edge == "start" and Pos.X > 2 or Pos.X < MaxX - 2
+    else
+        local MaxY = Canvas.Y - Window.Y
+        if MaxY <= 1 then return false end
+        return Edge == "start" and Pos.Y > 2 or Pos.Y < MaxY - 2
+    end
+end
+
+function Library:_StartScrollFadeLoop()
+    if Library._ScrollFadeConn then return end
+    Library._ScrollFadeConn = game:GetService("RunService").RenderStepped:Connect(function()
+        if Library.Unloaded then
+            Library._ScrollFadeConn:Disconnect()
+            Library._ScrollFadeConn = nil
+            return
+        end
+        for i = 1, #Library._ScrollFades do
+            local E     = Library._ScrollFades[i]
+            local Frame = E.Frame
+            if Frame and Frame.Parent then
+                local Scroll = E.Get and E.Get()
+                local Active = EdgeActive(Scroll, E.Axis, E.Edge)
+                if Active ~= E.Active then
+                    E.Active  = Active
+                    E.AnimId  = (E.AnimId or 0) + 1
+                    local AId = E.AnimId
+
+                    if E.Tweens then
+                        for _, Tw in E.Tweens do pcall(function() Tw:Cancel() end) end
+                        E.Tweens = nil
+                    end
+
+                    if Active then Frame.Visible = true end
+
+                    local Info   = TweenInfo.new(Active and 0.18 or 0.15, Enum.EasingStyle.Quint, Active and Enum.EasingDirection.Out or Enum.EasingDirection.In)
+                    E.Tweens     = {}
+
+                    pcall(function()
+                        E.Tweens[1] = TweenService:Create(Frame, Info, { GroupTransparency = Active and 0 or 1 })
+                    end)
+                    if E.Items and E.Items.Fade then
+                        E.Tweens[#E.Tweens + 1] = TweenService:Create(E.Items.Fade, Info, {
+                            Size             = Active and E.Items.FadeFull or E.Items.FadeHidden,
+                            BackgroundColor3 = Library.Scheme.AccentColor,
+                        })
+                    end
+
+                    for _, Tw in E.Tweens do if Tw then Tw:Play() end end
+
+                    if E.Tweens[1] then
+                        E.Tweens[1].Completed:Connect(function()
+                            if E.AnimId ~= AId or E.Active or not Frame or not Frame.Parent then return end
+                            pcall(function() Frame.GroupTransparency = 1 end)
+                            if E.Items and E.Items.Fade then
+                                E.Items.Fade.Size = E.Items.FadeHidden
+                            end
+                            Frame.Visible = false
+                        end)
+                    end
+                end
+            end
+        end
+    end)
+    table.insert(Library.Signals, Library._ScrollFadeConn)
+end
+
+function Library:_SetupScrollFades(SidebarScroll, ChipBarScroll)
+    -- Sidebar: top and bottom vertical fades
+    if SidebarScroll then
+        Library:_RegisterScrollFade(Library:_MakeFade(SidebarScroll, "y", "start"), "y", "start", function() return SidebarScroll end)
+        Library:_RegisterScrollFade(Library:_MakeFade(SidebarScroll, "y", "end"),   "y", "end",   function() return SidebarScroll end)
+    end
+    -- ChipBar: left and right horizontal fades (millennium multi_holder x-axis)
+    if ChipBarScroll then
+        Library:_RegisterScrollFade(Library:_MakeFade(ChipBarScroll, "x", "start"), "x", "start", function()
+            -- Find the active ChipStrip inside ChipBarScroll
+            for _, child in ChipBarScroll:GetChildren() do
+                if child:IsA("ScrollingFrame") then return child end
+            end
+            return ChipBarScroll
+        end)
+        Library:_RegisterScrollFade(Library:_MakeFade(ChipBarScroll, "x", "end"), "x", "end", function()
+            for _, child in ChipBarScroll:GetChildren() do
+                if child:IsA("ScrollingFrame") then return child end
+            end
+            return ChipBarScroll
+        end)
+    end
+    Library:_StartScrollFadeLoop()
+end
+-- ─────────────────────────────────────────────────────────────────────────────
 
 function Library:Unload()
     Library.Unloaded = true
