@@ -6550,29 +6550,35 @@ do
 
                 Library:SafeCallback(Button.Func)
 
-                -- TokaiHub: Ripple effect - mouse position relative to button
-                local MousePos    = game:GetService("UserInputService"):GetMouseLocation()
-                local BtnPos      = Button.Base.AbsolutePosition
-                local RelX        = MousePos.X - BtnPos.X
-                local RelY        = MousePos.Y - BtnPos.Y
-                local RippleSize  = math.max(Button.Base.AbsoluteSize.X, Button.Base.AbsoluteSize.Y) * 2.2
+                -- TokaiHub: Ripple effect - clamped to button bounds
+                do
+                    local UIS        = game:GetService("UserInputService")
+                    local MousePos   = UIS:GetMouseLocation()
+                    local BtnAbsPos  = Button.Base.AbsolutePosition
+                    local BtnAbsSize = Button.Base.AbsoluteSize
+                    local RelX       = math.clamp(MousePos.X - BtnAbsPos.X, 0, BtnAbsSize.X)
+                    local RelY       = math.clamp(MousePos.Y - BtnAbsPos.Y, 0, BtnAbsSize.Y)
+                    local RippleSize = math.max(BtnAbsSize.X, BtnAbsSize.Y) * 2.4
 
-                local Ripple = New("Frame", {
-                    AnchorPoint          = Vector2.new(0.5, 0.5),
-                    BackgroundColor3     = Library.Scheme.AccentColor,
-                    BackgroundTransparency = 0.55,
-                    ClipsDescendants     = false,
-                    Position             = UDim2.fromOffset(RelX, RelY),
-                    Size                 = UDim2.fromOffset(0, 0),
-                    ZIndex               = Button.Base.ZIndex + 2,
-                    Parent               = Button.Base,
-                })
-                New("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Ripple })
-                TweenService:Create(Ripple, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                    Size                 = UDim2.fromOffset(RippleSize, RippleSize),
-                    BackgroundTransparency = 1,
-                }):Play()
-                game:GetService("Debris"):AddItem(Ripple, 0.45)
+                    -- clip parent so ripple stays inside button
+                    Button.Base.ClipsDescendants = true
+
+                    local Ripple = New("Frame", {
+                        AnchorPoint            = Vector2.new(0.5, 0.5),
+                        BackgroundColor3       = Library.Scheme.AccentColor,
+                        BackgroundTransparency = 0.5,
+                        Position               = UDim2.fromOffset(RelX, RelY),
+                        Size                   = UDim2.fromOffset(0, 0),
+                        ZIndex                 = Button.Base.ZIndex + 2,
+                        Parent                 = Button.Base,
+                    })
+                    New("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Ripple })
+                    TweenService:Create(Ripple, TweenInfo.new(0.38, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                        Size                   = UDim2.fromOffset(RippleSize, RippleSize),
+                        BackgroundTransparency = 1,
+                    }):Play()
+                    game:GetService("Debris"):AddItem(Ripple, 0.42)
+                end
             end))
         end
 
@@ -7235,23 +7241,25 @@ do
             Ball.BackgroundColor3 = Library.Scheme.FontColor
             Library.Registry[Ball].BackgroundColor3 = "FontColor"
 
-            -- TokaiHub: Pulse glow on enable
+            -- TokaiHub: Pulse glow on enable - parented to Switch itself
             if Toggle.Value and not Toggle.Disabled then
+                Switch.ClipsDescendants = false
                 local Glow = New("Frame", {
-                    AnchorPoint = Vector2.new(0.5, 0.5),
-                    BackgroundColor3 = Library.Scheme.AccentColor,
+                    AnchorPoint            = Vector2.new(0.5, 0.5),
+                    BackgroundColor3       = Library.Scheme.AccentColor,
                     BackgroundTransparency = 0.5,
-                    Position = UDim2.fromScale(0.5, 0.5),
-                    Size = Switch.Size,
-                    ZIndex = Switch.ZIndex - 1,
-                    Parent = Switch.Parent,
+                    Position               = UDim2.fromScale(0.5, 0.5),
+                    Size                   = Switch.Size,
+                    ZIndex                 = Switch.ZIndex - 1,
+                    Parent                 = Switch,
                 })
                 New("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Glow })
-                TweenService:Create(Glow, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                    Size = UDim2.fromOffset(Switch.AbsoluteSize.X + 10, Switch.AbsoluteSize.Y + 10),
+                local GlowSize = Switch.AbsoluteSize
+                TweenService:Create(Glow, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                    Size                   = UDim2.fromOffset(GlowSize.X + 8, GlowSize.Y + 8),
                     BackgroundTransparency = 1,
                 }):Play()
-                game:GetService("Debris"):AddItem(Glow, 0.5)
+                game:GetService("Debris"):AddItem(Glow, 0.4)
             end
         end
 
@@ -10904,37 +10912,38 @@ function Library:CreateWindow(WindowInfo)
             end
         else
             -- TokaiHub: Logo từ Github → workspace executor
-            local LogoURL = "https://raw.githubusercontent.com/longhazem/TKBLACKLIB/refs/heads/main/assets/logo.png"
+            local LogoURL   = "https://raw.githubusercontent.com/longhazem/TKBLACKLIB/refs/heads/main/assets/logo.png"
             local LogoAsset = ""
+            local LogoPath  = "TokaiHub/logo.png"
 
-            -- Download logo về workspace nếu chưa có
             pcall(function()
-                if not isfile("TokaiHub/logo.png") then
-                    if not isfolder("TokaiHub") then
-                        makefolder("TokaiHub")
-                    end
-                    writefile("TokaiHub/logo.png", game:HttpGet(LogoURL))
+                if not isfolder("TokaiHub") then makefolder("TokaiHub") end
+                if not isfile(LogoPath) then
+                    writefile(LogoPath, game:HttpGet(LogoURL))
                 end
-                LogoAsset = getcustomasset("TokaiHub/logo.png")
+            end)
+            pcall(function()
+                LogoAsset = getcustomasset(LogoPath)
             end)
 
-            if LogoAsset ~= "" then
-                WindowIcon = New("ImageLabel", {
-                    BackgroundTransparency = 1,
-                    Image = LogoAsset,
-                    ScaleType = Enum.ScaleType.Fit,
-                    Size = WindowInfo.IconSize,
-                    Parent = TitleHolder,
-                })
-            else
-                -- Fallback nếu executor không hỗ trợ getcustomasset
+            WindowIcon = New("ImageLabel", {
+                BackgroundTransparency = 1,
+                Image                  = LogoAsset,
+                ScaleType              = Enum.ScaleType.Fit,
+                Size                   = WindowInfo.IconSize,
+                Visible                = LogoAsset ~= "",
+                Parent                 = TitleHolder,
+            })
+
+            if LogoAsset == "" then
+                -- Fallback: first letter
                 WindowIcon = New("TextLabel", {
                     BackgroundTransparency = 1,
-                    Size = WindowInfo.IconSize,
-                    Text = WindowInfo.Title:sub(1, 1),
-                    TextScaled = true,
-                    Visible = false,
-                    Parent = TitleHolder,
+                    Size                   = WindowInfo.IconSize,
+                    Text                   = WindowInfo.Title:sub(1, 1),
+                    TextScaled             = true,
+                    Visible                = false,
+                    Parent                 = TitleHolder,
                 })
             end
         end
@@ -13647,42 +13656,44 @@ function Library:CreateWindow(WindowInfo)
         local ActiveTag
 
         function TagTab:Show()
-            if Library.ActiveTab and Library.ActiveTab ~= TagTab then
+            if Library.ActiveTab == TagTab then return end
+
+            if Library.ActiveTab then
                 Library.ActiveTab:Hide()
             end
-            Library.ActiveTab = TagTab
 
-            TagTabContainer.Visible = true
-
+            TweenService:Create(TabButton, Library.TweenInfo,
+                { BackgroundTransparency = 0 }):Play()
             if TabIndicator then
                 TweenService:Create(TabIndicator, Library.TweenInfo,
                     { BackgroundTransparency = 0 }):Play()
             end
-            TweenService:Create(TabButton, Library.TweenInfo,
-                { BackgroundTransparency = 0 }):Play()
             TweenService:Create(TabLabel, Library.TweenInfo,
                 { TextTransparency = 0 }):Play()
             if TabIconImg then
                 TweenService:Create(TabIconImg, Library.TweenInfo,
                     { ImageTransparency = 0 }):Play()
             end
+
+            Library:PlayTabAnimation(TagTab, true)
+            Library.ActiveTab = TagTab
         end
 
         function TagTab:Hide()
-            TagTabContainer.Visible = false
-
+            TweenService:Create(TabButton, Library.TweenInfo,
+                { BackgroundTransparency = 1 }):Play()
             if TabIndicator then
                 TweenService:Create(TabIndicator, Library.TweenInfo,
                     { BackgroundTransparency = 1 }):Play()
             end
-            TweenService:Create(TabButton, Library.TweenInfo,
-                { BackgroundTransparency = 1 }):Play()
             TweenService:Create(TabLabel, Library.TweenInfo,
                 { TextTransparency = 0.5 }):Play()
             if TabIconImg then
                 TweenService:Create(TabIconImg, Library.TweenInfo,
                     { ImageTransparency = 0.5 }):Play()
             end
+
+            Library:PlayTabAnimation(TagTab, false)
         end
 
         function TagTab:Hover(Hovering)
