@@ -10963,16 +10963,25 @@ function Library:CreateWindow(WindowInfo)
         })
 
         --// Top Right Bar \\--
-        -- TokaiHub: SubTabBar - millennium-style multi_holder
-        -- TagTabs swap their chip strips into this frame when active
+        -- TokaiHub: SubTabBar - millennium-style chip bar
+        -- Sits over the RightWrapper area, visible only when TagTab is active
         local SubTabBar = New("Frame", {
+            AnchorPoint            = Vector2.new(1, 0),
             BackgroundTransparency = 1,
-            Position = UDim2.new(0, InitialLeftWidth + 1, 0, 0),
-            Size = UDim2.new(1, -InitialLeftWidth - 1, 1, 0),
-            ClipsDescendants = true,
-            Parent = TopBar,
+            Position               = UDim2.new(1, -49, 0, 0),
+            Size                   = UDim2.new(1, -InitialLeftWidth - 57 - 1, 1, 0),
+            Visible                = false,
+            ZIndex                 = 10,
+            Parent                 = TopBar,
         })
-        Library.SubTabBar = SubTabBar
+        New("UIListLayout", {
+            FillDirection     = Enum.FillDirection.Horizontal,
+            VerticalAlignment = Enum.VerticalAlignment.Center,
+            Padding           = UDim.new(0, 0),
+            Parent            = SubTabBar,
+        })
+        Library.SubTabBar      = SubTabBar
+        Library.RightWrapperRef = nil  -- set after RightWrapper is created
 
 
         RightWrapper = New("Frame", {
@@ -10990,6 +10999,7 @@ function Library:CreateWindow(WindowInfo)
             Padding = UDim.new(0, 8),
             Parent = RightWrapper,
         })
+        Library.RightWrapperRef = RightWrapper  -- TokaiHub: ref for TagTab toggle
 
         CurrentTabInfo = New("Frame", {
             Size = UDim2.fromScale(WindowInfo.DisableSearch and 1 or 0.5, 1),
@@ -11526,6 +11536,8 @@ function Library:CreateWindow(WindowInfo)
         local Tooltip = nil
         local Order = nil
 
+        local SubTabNames = nil
+
         if select("#", ...) == 1 and typeof(...) == "table" then
             local Info = select(1, ...)
             Name = Info.Name or "Tab"
@@ -11533,6 +11545,7 @@ function Library:CreateWindow(WindowInfo)
             Description = Info.Description
             Tooltip = Info.Tooltip
             Order = Info.Order
+            SubTabNames = Info.SubTabs or Info.Tabs  -- TokaiHub: millennium-style sub-tabs
         else
             Name = select(1, ...)
             Icon = select(2, ...)
@@ -13180,6 +13193,186 @@ function Library:CreateWindow(WindowInfo)
 
         Library.Tabs[Name] = Tab
 
+        -- TokaiHub: millennium-style SubTabs ─────────────────────────────────
+        -- If SubTabs = {"FOV", "Gun Mod", "Aimbot"} is passed,
+        -- build a chip bar at top of the tab container and return sub-tab objects
+        if SubTabNames and #SubTabNames > 0 then
+            -- Sub-tab bar frame at top of Container (inside TabContainer)
+            local TabContainer = Library.Tabs[Name].Container
+
+            -- Chip bar: horizontal row at top of this tab's content area
+            local ChipBar = New("Frame", {
+                BackgroundColor3       = "MainColor",
+                BackgroundTransparency = 0.6,
+                Size                   = UDim2.new(1, 0, 0, 42),
+                ZIndex                 = 5,
+                Parent                 = TabContainer,
+            })
+            Library:AddOutline(ChipBar)
+            New("UIListLayout", {
+                FillDirection     = Enum.FillDirection.Horizontal,
+                VerticalAlignment = Enum.VerticalAlignment.Center,
+                Padding           = UDim.new(0, 4),
+                Parent            = ChipBar,
+            })
+            New("UIPadding", {
+                PaddingLeft   = UDim.new(0, 10),
+                PaddingRight  = UDim.new(0, 10),
+                PaddingTop    = UDim.new(0, 0),
+                PaddingBottom = UDim.new(0, 0),
+                Parent        = ChipBar,
+            })
+
+            -- Content area below chip bar (fills rest of tab)
+            local ContentArea = New("Frame", {
+                BackgroundTransparency = 1,
+                Position               = UDim2.new(0, 0, 0, 43),
+                Size                   = UDim2.new(1, 0, 1, -43),
+                Parent                 = TabContainer,
+            })
+
+            local ActiveSubTab = nil
+            local SubTabObjects = {}
+
+            for _, SubName in SubTabNames do
+                -- Chip button
+                local Chip = New("TextButton", {
+                    AutomaticSize          = Enum.AutomaticSize.X,
+                    BackgroundColor3       = "AccentColor",
+                    BackgroundTransparency = 1,
+                    ClipsDescendants       = true,
+                    Size                   = UDim2.fromOffset(0, 32),
+                    Text                   = "",
+                    AutoButtonColor        = false,
+                    Parent                 = ChipBar,
+                })
+                New("UICorner", { CornerRadius = UDim.new(0, 6), Parent = Chip })
+                New("UIPadding", { PaddingLeft = UDim.new(0, 12), PaddingRight = UDim.new(0, 12), Parent = Chip })
+
+                local ChipLabel = New("TextLabel", {
+                    AnchorPoint            = Vector2.new(0.5, 0.5),
+                    AutomaticSize          = Enum.AutomaticSize.X,
+                    BackgroundTransparency = 1,
+                    Position               = UDim2.fromScale(0.5, 0.5),
+                    Size                   = UDim2.fromOffset(0, 16),
+                    Text                   = SubName,
+                    TextSize               = 13,
+                    TextTransparency       = 0.4,
+                    Parent                 = Chip,
+                })
+
+                -- Accent underline (millennium style)
+                local Accent = New("Frame", {
+                    AnchorPoint            = Vector2.new(0, 1),
+                    BackgroundColor3       = "AccentColor",
+                    BackgroundTransparency = 1,
+                    Position               = UDim2.new(0, 8, 1, 2),
+                    Size                   = UDim2.new(1, -16, 0, 2),
+                    Parent                 = Chip,
+                })
+                New("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Accent })
+
+                -- Sub-panel: left + right columns
+                local SubPanel = New("Frame", {
+                    BackgroundTransparency = 1,
+                    Size                   = UDim2.fromScale(1, 1),
+                    Visible                = false,
+                    Parent                 = ContentArea,
+                })
+
+                local SubLeft = New("ScrollingFrame", {
+                    AutomaticCanvasSize    = Enum.AutomaticSize.Y,
+                    BackgroundTransparency = 1,
+                    CanvasSize             = UDim2.fromScale(0, 0),
+                    ScrollBarThickness     = 0,
+                    Size                   = UDim2.new(0.5, -3, 1, 0),
+                    Parent                 = SubPanel,
+                })
+                New("UIListLayout", { Padding = UDim.new(0, 4), Parent = SubLeft })
+                New("UIPadding", { PaddingBottom = UDim.new(0, 4), PaddingLeft = UDim.new(0, 4), PaddingRight = UDim.new(0, 4), PaddingTop = UDim.new(0, 4), Parent = SubLeft })
+
+                local SubRight = New("ScrollingFrame", {
+                    AnchorPoint            = Vector2.new(1, 0),
+                    AutomaticCanvasSize    = Enum.AutomaticSize.Y,
+                    BackgroundTransparency = 1,
+                    CanvasSize             = UDim2.fromScale(0, 0),
+                    Position               = UDim2.fromScale(1, 0),
+                    ScrollBarThickness     = 0,
+                    Size                   = UDim2.new(0.5, -3, 1, 0),
+                    Parent                 = SubPanel,
+                })
+                New("UIListLayout", { Padding = UDim.new(0, 4), Parent = SubRight })
+                New("UIPadding", { PaddingBottom = UDim.new(0, 4), PaddingLeft = UDim.new(0, 4), PaddingRight = UDim.new(0, 4), PaddingTop = UDim.new(0, 4), Parent = SubRight })
+
+                -- SubTab object with AddGroupbox
+                local SubTab = { Name = SubName, Chip = Chip, ChipLabel = ChipLabel, Accent = Accent, Container = SubPanel, Groupboxes = {}, Destroyed = false }
+
+                function SubTab:AddGroupbox(Info2)
+                    if self.Destroyed then return nil end
+                    Info2 = Library:Validate(Info2, Templates.Groupbox)
+                    local sideStr = (typeof(Info2.Side) == "string") and string.lower(Info2.Side) or nil
+                    local sideIdx = sideStr and (({left=1,right=2})[sideStr] or 1) or (Info2.Side or 1)
+                    local ParentFrame = sideIdx == 2 and SubRight or SubLeft
+
+                    local BoxHolder = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), Parent = ParentFrame })
+                    New("UIListLayout", { Padding = UDim.new(0, 6), Parent = BoxHolder })
+                    New("UIPadding", { PaddingBottom = UDim.new(0, 4), PaddingTop = UDim.new(0, 4), Parent = BoxHolder })
+
+                    local GbFrame = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundColor3 = "BackgroundColor", BackgroundTransparency = 0.5, Size = UDim2.fromScale(1, 0), Parent = BoxHolder })
+                    table.insert(Library.Corners, New("UICorner", { CornerRadius = UDim.new(0, WindowInfo.CornerRadius), Parent = GbFrame }))
+                    New("UIListLayout", { Parent = GbFrame })
+                    Library:AddOutline(GbFrame)
+
+                    local Header = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), Parent = GbFrame })
+                    New("UIPadding", { PaddingBottom = UDim.new(0, 3), PaddingLeft = UDim.new(0, 8), PaddingRight = UDim.new(0, 8), PaddingTop = UDim.new(0, 3), Parent = Header })
+                    New("UIListLayout", { Parent = Header })
+                    New("TextLabel", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), Text = Info2.Name or "", TextSize = 15, TextWrapped = true, TextXAlignment = Enum.TextXAlignment.Left, Parent = Header })
+
+                    local GbContainer = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), Parent = GbFrame })
+                    New("UIListLayout", { Padding = UDim.new(0, 4), Parent = GbContainer })
+                    New("UIPadding", { PaddingBottom = UDim.new(0, 6), PaddingLeft = UDim.new(0, 6), PaddingRight = UDim.new(0, 6), PaddingTop = UDim.new(0, 2), Parent = GbContainer })
+
+                    local Groupbox = { Type = "Groupbox", Container = GbContainer, Elements = {}, DependencyBoxes = {}, Connections = {}, Tabboxes = {}, Destroyed = false, IsKeyTab = false }
+                    function Groupbox:Resize() end
+                    setmetatable(Groupbox, { __index = Funcs })
+                    table.insert(self.Groupboxes, Groupbox)
+                    return Groupbox
+                end
+                function SubTab:AddLeftGroupbox(N, I)  return self:AddGroupbox({ Side = 1, Name = N, IconName = I }) end
+                function SubTab:AddRightGroupbox(N, I) return self:AddGroupbox({ Side = 2, Name = N, IconName = I }) end
+
+                -- Activate chip
+                local function Activate()
+                    if ActiveSubTab and ActiveSubTab ~= SubTab then
+                        ActiveSubTab.Container.Visible = false
+                        TweenService:Create(ActiveSubTab.ChipLabel, Library.TweenInfo, { TextTransparency = 0.4 }):Play()
+                        TweenService:Create(ActiveSubTab.Chip,      Library.TweenInfo, { BackgroundTransparency = 1 }):Play()
+                        TweenService:Create(ActiveSubTab.Accent,    Library.TweenInfo, { BackgroundTransparency = 1 }):Play()
+                    end
+                    ActiveSubTab = SubTab
+                    SubPanel.Visible = true
+                    TweenService:Create(ChipLabel, Library.TweenInfo, { TextTransparency = 0 }):Play()
+                    TweenService:Create(Chip,      Library.TweenInfo, { BackgroundTransparency = 0 }):Play()
+                    TweenService:Create(Accent,    Library.TweenInfo, { BackgroundTransparency = 0 }):Play()
+                end
+
+                Chip.MouseButton1Click:Connect(Activate)
+                table.insert(SubTabObjects, SubTab)
+
+                if #SubTabObjects == 1 then Activate() end
+            end
+
+            -- Make normal Tab left/right columns invisible (chip bar owns the space now)
+            for _, child in TabContainer:GetChildren() do
+                if child ~= ChipBar and child ~= ContentArea and child:IsA("ScrollingFrame") then
+                    child.Visible = false
+                end
+            end
+
+            return table.unpack(SubTabObjects)
+        end
+        -- ─────────────────────────────────────────────────────────────────────
+
         return Tab
     end
 
@@ -13275,29 +13468,30 @@ function Library:CreateWindow(WindowInfo)
         end
         table.insert(Library.TabButtons, { Label = TabLabel, Padding = BtnHolder:FindFirstChildOfClass("UIPadding"), Icon = TabIconImg })
 
-        -- ── Chip strip (millennium multi_section_button_holder equivalent) ──
-        -- Lives in a cache frame, re-parented into Library.SubTabBar when active
+        -- ── Chip strip: lives in ScreenGui cache, re-parented to SubTabBar when active
         local ChipStrip = New("ScrollingFrame", {
             BackgroundTransparency   = 1,
             CanvasSize               = UDim2.fromScale(0, 0),
             AutomaticCanvasSize      = Enum.AutomaticSize.X,
             ScrollBarThickness       = 0,
             ScrollingDirection       = Enum.ScrollingDirection.X,
+            ClipsDescendants         = true,
             Size                     = UDim2.fromScale(1, 1),
             Visible                  = false,
-            Parent                   = ScreenGui, -- cache - hidden until active
+            Parent                   = ScreenGui,
         })
         New("UIListLayout", {
             FillDirection     = Enum.FillDirection.Horizontal,
             VerticalAlignment = Enum.VerticalAlignment.Center,
-            Padding           = UDim.new(0, 6),
+            Padding           = UDim.new(0, 5),
+            SortOrder         = Enum.SortOrder.LayoutOrder,
             Parent            = ChipStrip,
         })
         New("UIPadding", {
-            PaddingLeft   = UDim.new(0, 8),
-            PaddingRight  = UDim.new(0, 8),
-            PaddingTop    = UDim.new(0, 0),
-            PaddingBottom = UDim.new(0, 0),
+            PaddingLeft   = UDim.new(0, 10),
+            PaddingRight  = UDim.new(0, 10),
+            PaddingTop    = UDim.new(0, 6),
+            PaddingBottom = UDim.new(0, 6),
             Parent        = ChipStrip,
         })
 
@@ -13326,18 +13520,19 @@ function Library:CreateWindow(WindowInfo)
         -- ── AddSubTab ───────────────────────────────────────────────────────
         function TagTab:AddSubTab(SubName, SubIconName)
 
-            -- Chip button inside ChipStrip
+            -- Chip button (millennium style: text with accent underline)
             local Chip = New("TextButton", {
-                AutomaticSize        = Enum.AutomaticSize.X,
-                BackgroundColor3     = "MainColor",
+                AutomaticSize          = Enum.AutomaticSize.X,
+                BackgroundColor3       = "MainColor",
                 BackgroundTransparency = 1,
-                Size                 = UDim2.fromOffset(0, 30),
-                Text                 = "",
-                AutoButtonColor      = false,
-                Parent               = ChipStrip,
+                ClipsDescendants       = true,
+                Size                   = UDim2.fromOffset(0, 36),
+                Text                   = "",
+                AutoButtonColor        = false,
+                Parent                 = ChipStrip,
             })
-            New("UICorner", { CornerRadius = UDim.new(0, 999), Parent = Chip })
-            New("UIPadding", { PaddingLeft = UDim.new(0, 12), PaddingRight = UDim.new(0, 12), Parent = Chip })
+            New("UICorner", { CornerRadius = UDim.new(0, 6), Parent = Chip })
+            New("UIPadding", { PaddingLeft = UDim.new(0, 10), PaddingRight = UDim.new(0, 10), Parent = Chip })
 
             local ChipInner = New("Frame", {
                 AnchorPoint            = Vector2.new(0.5, 0.5),
@@ -13525,9 +13720,15 @@ function Library:CreateWindow(WindowInfo)
             if Library.ActiveTab == TagTab then return end
             if Library.ActiveTab then Library.ActiveTab:Hide() end
 
-            -- Re-parent ChipStrip into SubTabBar (millennium style)
-            ChipStrip.Visible = true
+            -- Show SubTabBar, hide RightWrapper (search/info) - millennium pattern
+            if Library.RightWrapperRef then
+                Library.RightWrapperRef.Visible = false
+            end
+            Library.SubTabBar.Visible = true
+
+            -- Move ChipStrip into SubTabBar
             ChipStrip.Parent  = Library.SubTabBar
+            ChipStrip.Visible = true
             ChipStrip.Size    = UDim2.fromScale(1, 1)
 
             Library:PlayTabAnimation(TagTab, true)
@@ -13540,9 +13741,15 @@ function Library:CreateWindow(WindowInfo)
         end
 
         function TagTab:Hide()
-            -- Remove ChipStrip from SubTabBar back to cache
+            -- Move ChipStrip back to cache
             ChipStrip.Visible = false
             ChipStrip.Parent  = ScreenGui
+
+            -- Restore RightWrapper (search/info), hide SubTabBar
+            Library.SubTabBar.Visible = false
+            if Library.RightWrapperRef then
+                Library.RightWrapperRef.Visible = true
+            end
 
             Library:PlayTabAnimation(TagTab, false)
 
@@ -13593,6 +13800,7 @@ function Library:CreateWindow(WindowInfo)
             Description = Info.Description
             Tooltip = Info.Tooltip
             Order = Info.Order
+            SubTabNames = Info.SubTabs or Info.Tabs
         else
             Name = select(1, ...) or "Tab"
             Icon = select(2, ...)

@@ -796,212 +796,54 @@ Library.ToggleKeybind = Options.MenuKeybind -- Allows you to have a custom keybi
 
 -- Hand the library over to our managers
 
--- ─── TokaiHub New Features ────────────────────────────────────────────────────
 
--- Tag/Badge on Toggle (NEW, HOT, BETA, etc)
-LeftGroupBox:AddToggle("TaggedToggle", {
-    Text = "Feature with Badge",
-    Default = false,
-    Tag = "NEW",
-    Callback = function(Value)
-        print("TaggedToggle:", Value)
-    end,
-})
 
-LeftGroupBox:AddToggle("HotToggle", {
-    Text = "Dangerous Feature",
-    Default = false,
-    Tag = "HOT",
-    Risky = true,
-    Callback = function(Value)
-        print("HotToggle:", Value)
-    end,
-})
 
--- Tag on Label
-LeftGroupBox:AddLabel({
-    Text = "Section header",
-    Tag = "v2.0",
-})
+-- ─── TokaiHub: Millennium-style SubTabs ─────────────────────────────────────
+-- Truyền SubTabs = {"FOV", "Gun Mod", "Aimbot"} vào AddTab
+-- Returns từng sub-tab object để add groupbox vào
 
--- Button with ripple effect (automatic on all buttons)
-LeftGroupBox:AddButton({
-    Text = "Click for Ripple Effect",
-    Func = function()
-        print("Ripple fired!")
-    end,
-    Tooltip = "Watch the ripple on click",
-})
-
--- ──────────────────────────────────────────────────────────────────────────────
-
--- ─── TokaiHub TagGroup System ─────────────────────────────────────────────────
--- Tag lớn "Combat" chứa các sub-tag nhỏ: FOV / Gun Mod / Aimbot
-local CombatTagGroup = Tabs.Main:AddTagGroup({
-    Side = "Left",
+local FovSub, GunSub, AimSub = Window:AddTab({
     Name = "Combat",
+    Icon = "sword",
+    SubTabs = { "FOV", "Gun Mod", "Aimbot" },
 })
-
--- Sub-tag: FOV
-local FovTag = CombatTagGroup:AddSubTag("FOV", "eye")
-FovTag:AddSlider("FovSlider", {
-    Text = "Field of View",
-    Default = 70,
-    Min = 10,
-    Max = 120,
-    Rounding = 0,
-    Callback = function(v) print("FOV:", v) end,
-})
-FovTag:AddToggle("FovEnabled", {
-    Text = "Enable Custom FOV",
-    Default = false,
-    Callback = function(v) print("FOV enabled:", v) end,
-})
-
--- Sub-tag: Gun Mod
-local GunTag = CombatTagGroup:AddSubTag("Gun Mod", "crosshair")
-GunTag:AddSlider("BulletSpeed", {
-    Text = "Bullet Speed",
-    Default = 100,
-    Min = 10,
-    Max = 500,
-    Rounding = 0,
-    Suffix = "%",
-    Callback = function(v) print("BulletSpeed:", v) end,
-})
-GunTag:AddToggle("InfiniteAmmo", {
-    Text = "Infinite Ammo",
-    Default = false,
-    Tag = "HOT",
-    Risky = true,
-    Callback = function(v) print("Infinite ammo:", v) end,
-})
-
--- Sub-tag: Aimbot
-local AimbotTag = CombatTagGroup:AddSubTag("Aimbot", "target")
-AimbotTag:AddToggle("AimbotEnabled", {
-    Text = "Enable Aimbot",
-    Default = false,
-    Tag = "NEW",
-    Callback = function(v) print("Aimbot:", v) end,
-})
-AimbotTag:AddSlider("AimbotSmooth", {
-    Text = "Smoothness",
-    Default = 5,
-    Min = 1,
-    Max = 20,
-    Rounding = 1,
-    Callback = function(v) print("Smoothness:", v) end,
-})
-AimbotTag:AddDropdown("AimbotTarget", {
-    Values = { "Head", "Torso", "Nearest" },
-    Default = 1,
-    Text = "Target Part",
-    Callback = function(v) print("Target:", v) end,
-})
-
--- ──────────────────────────────────────────────────────────────────────────────
-
--- ─── TokaiHub AddTagTab ────────────────────────────────────────────────────
--- Sidebar trái chọn tab lớn → chip bar trên hiện sub-tab nhỏ → content đổi
-
-local CombatTab = Window:AddTagTab("Combat", "sword")
 
 -- Sub-tab: FOV
-local FovSub = CombatTab:AddSubTab("FOV", "eye")
 local FovLeft = FovSub:AddGroupbox({ Side = "Left", Name = "Field of View" })
-FovLeft:AddToggle("FovEnabled", {
-    Text = "Enable Custom FOV",
-    Default = false,
-    Tag = "NEW",
-    Callback = function(v) print("FOV enabled:", v) end,
-})
-FovLeft:AddSlider("FovValue", {
-    Text = "FOV",
-    Default = 70, Min = 10, Max = 120, Rounding = 0,
-    Callback = function(v) print("FOV:", v) end,
-})
-FovLeft:AddDropdown("FovType", {
-    Values = { "Default", "Viewmodel", "World" },
-    Default = 1,
-    Text = "FOV Type",
-    Callback = function(v) print("FOV Type:", v) end,
-})
-local FovRight = FovSub:AddGroupbox({ Side = "Right", Name = "Display" })
-FovRight:AddToggle("FovCircle", {
-    Text = "Show FOV Circle",
-    Default = false,
-    Callback = function(v) print("FOV circle:", v) end,
-})
+FovLeft:AddToggle("FovEnabled", { Text = "Enable Custom FOV", Default = false, Tag = "NEW" })
+FovLeft:AddSlider("FovValue", { Text = "FOV", Default = 70, Min = 10, Max = 120, Rounding = 0 })
+FovLeft:AddDropdown("FovType", { Values = { "Default", "Viewmodel" }, Default = 1, Text = "FOV Type" })
 
 -- Sub-tab: Gun Mod
-local GunSub = CombatTab:AddSubTab("Gun Mod", "crosshair")
 local GunLeft = GunSub:AddGroupbox({ Side = "Left", Name = "Weapon" })
-GunLeft:AddToggle("InfiniteAmmo", {
-    Text = "Infinite Ammo",
-    Default = false, Risky = true, Tag = "HOT",
-    Callback = function(v) print("Inf ammo:", v) end,
-})
-GunLeft:AddToggle("NoRecoil", {
-    Text = "No Recoil",
-    Default = false,
-    Callback = function(v) print("No recoil:", v) end,
-})
-GunLeft:AddSlider("BulletSpeed", {
-    Text = "Bullet Speed",
-    Default = 100, Min = 10, Max = 500, Rounding = 0, Suffix = "%",
-    Callback = function(v) print("Bullet speed:", v) end,
-})
+GunLeft:AddToggle("InfiniteAmmo", { Text = "Infinite Ammo", Default = false, Risky = true, Tag = "HOT" })
+GunLeft:AddToggle("NoRecoil", { Text = "No Recoil", Default = false })
+GunLeft:AddSlider("BulletSpeed", { Text = "Bullet Speed", Default = 100, Min = 10, Max = 500, Rounding = 0 })
 local GunRight = GunSub:AddGroupbox({ Side = "Right", Name = "Visual" })
-GunRight:AddToggle("Tracer", {
-    Text = "Bullet Tracer",
-    Default = false,
-    Callback = function(v) print("Tracer:", v) end,
-})
+GunRight:AddToggle("Tracer", { Text = "Bullet Tracer", Default = false })
 
 -- Sub-tab: Aimbot
-local AimSub = CombatTab:AddSubTab("Aimbot", "target")
 local AimLeft = AimSub:AddGroupbox({ Side = "Left", Name = "Aimbot" })
-AimLeft:AddToggle("AimbotOn", {
-    Text = "Enable",
-    Default = false, Tag = "NEW",
-    Callback = function(v) print("Aimbot:", v) end,
-})
-AimLeft:AddSlider("AimbotSmooth", {
-    Text = "Smoothness",
-    Default = 5, Min = 1, Max = 20, Rounding = 1,
-    Callback = function(v) print("Smooth:", v) end,
-})
-AimLeft:AddDropdown("AimbotPart", {
-    Values = { "Head", "Torso", "Nearest" },
-    Default = 1, Text = "Target Part",
-    Callback = function(v) print("Target:", v) end,
+AimLeft:AddToggle("AimbotOn", { Text = "Enable", Default = false, Tag = "NEW" })
+AimLeft:AddSlider("AimbotSmooth", { Text = "Smoothness", Default = 5, Min = 1, Max = 20, Rounding = 1 })
+AimLeft:AddDropdown("AimbotPart", { Values = { "Head", "Torso", "Nearest" }, Default = 1, Text = "Target Part" })
+
+-- Visuals tab with sub-tabs
+local PlayersSub, ZombiesSub, WorldSub = Window:AddTab({
+    Name = "Visuals",
+    Icon = "eye",
+    SubTabs = { "Players", "Zombies", "World" },
 })
 
--- Visuals Tag Tab
-local VisualsTab = Window:AddTagTab("Visuals", "eye")
-
-local PlayersSub = VisualsTab:AddSubTab("Players", "user")
 local PLeft = PlayersSub:AddGroupbox({ Side = "Left", Name = "Boxes" })
-PLeft:AddDropdown("BoxType", {
-    Values = { "2D", "3D", "Corner" },
-    Default = 2, Text = "Box Type",
-    Callback = function(v) print("Box:", v) end,
-})
+PLeft:AddDropdown("BoxType", { Values = { "2D", "3D", "Corner" }, Default = 2, Text = "Box Type" })
 PLeft:AddToggle("BoxOutline", { Text = "Box Outline", Default = true })
-PLeft:AddToggle("BoxFill",    { Text = "Box Fill",    Default = false })
 local PRight = PlayersSub:AddGroupbox({ Side = "Right", Name = "Text" })
 PRight:AddToggle("EspName",     { Text = "Name",     Default = true })
 PRight:AddToggle("EspDistance", { Text = "Distance", Default = false })
-PRight:AddToggle("EspHealth",   { Text = "Health",   Default = true })
 
-local ZombiesSub = VisualsTab:AddSubTab("Zombies", "skull")
-local ZLeft = ZombiesSub:AddGroupbox({ Side = "Left", Name = "Zombie ESP" })
-ZLeft:AddToggle("ZombieESP", { Text = "Enable", Default = false })
-ZLeft:AddToggle("ZombieBox", { Text = "Box",    Default = false })
-ZLeft:AddToggle("ZombieName",{ Text = "Name",   Default = false })
-
--- ──────────────────────────────────────────────────────────────────────────────
+-- ─────────────────────────────────────────────────────────────────────────────
 ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
 
