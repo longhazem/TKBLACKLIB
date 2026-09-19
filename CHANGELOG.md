@@ -230,7 +230,7 @@
 + Fixed dropdown context menu not matching button size on the X axis
 
 [optimizations]
-+ Obsidian Library table will now get properly garbage collected after calling Library:Unload()
++ TokaiHub Library table will now get properly garbage collected after calling Library:Unload()
 ```
 
 ## 21.04.2026
@@ -344,7 +344,7 @@
 ## 02.11.2025
 
 ```diff
-+ Warning Box now follows the UI style of Obsidian (rounded corners with outlines)
++ Warning Box now follows the UI style of TokaiHub (rounded corners with outlines)
 + Watermark now correctly resizes itself with new line characters
 ```
 
@@ -439,7 +439,7 @@
 ### 15.06.2025
 
 ```diff
-+ Fixed Obsidian's `Library:Validate()` function to ignore arrays (setting modes option on AddKeyPicker would fail previously)
++ Fixed TokaiHub's `Library:Validate()` function to ignore arrays (setting modes option on AddKeyPicker would fail previously)
 ```
 
 ### 04.06.2025

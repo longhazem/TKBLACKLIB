@@ -34,7 +34,7 @@ local CustomImageManager = {}
 local CustomImageManagerAssets = {
     TransparencyTexture = {
         RobloxId = 139785960036434,
-        Path = "TokaiHub/assets/TransparencyTexture.png",
+        Path = "TokaiHubSettings/assets/TransparencyTexture.png",
         URL = BaseURL .. "assets/TransparencyTexture.png",
 
         Id = nil,
@@ -42,7 +42,7 @@ local CustomImageManagerAssets = {
 
     SaturationMap = {
         RobloxId = 4155801252,
-        Path = "TokaiHub/assets/SaturationMap.png",
+        Path = "TokaiHubSettings/assets/SaturationMap.png",
         URL = BaseURL .. "assets/SaturationMap.png",
 
         Id = nil,
@@ -50,7 +50,7 @@ local CustomImageManagerAssets = {
 
     LoadingIcon = {
         RobloxId = 97544096941083,
-        Path = "TokaiHub/assets/LoadingIcon.png",
+        Path = "TokaiHubSettings/assets/LoadingIcon.png",
         URL = BaseURL .. "assets/LoadingIcon.png",
 
         Id = nil,
@@ -58,8 +58,16 @@ local CustomImageManagerAssets = {
 
     CheckIcon = {
         RobloxId = 97682394690683,
-        Path = "TokaiHub/assets/CheckIcon.png",
+        Path = "TokaiHubSettings/assets/CheckIcon.png",
         URL = BaseURL .. "assets/CheckIcon.png",
+
+        Id = nil,
+    },
+
+    Logo = {
+        RobloxId = 0,
+        Path = "TokaiHubSettings/assets/logo.png",
+        URL = BaseURL .. "assets/logo.png",
 
         Id = nil,
     },
@@ -102,7 +110,7 @@ do
 
         CustomImageManagerAssets[AssetName] = {
             RobloxId = RobloxAssetId,
-            Path = string.format("TokaiHub/custom_assets/%s", AssetName),
+            Path = string.format("TokaiHubSettings/custom_assets/%s", AssetName),
             URL = URL,
 
             Id = nil,
@@ -164,11 +172,9 @@ local Library = {
     LocalPlayer = LocalPlayer,
     IsRobloxFocused = true,
 
-    --// Device \\--
     DevicePlatform = nil,
     IsMobile = false,
 
-    --// TokaiHub Windows \\--
     ScreenGui = nil,
     Floats = nil,
     Overlay = nil,
@@ -176,53 +182,43 @@ local Library = {
     Window = nil,
     WindowContainer = nil,
 
-    --// Search \\--
     SearchText = "",
     Searching = false,
     GlobalSearch = false,
     LastSearchTab = nil,
 
-    --// Tabs \\--
     ActiveTab = nil,
     PreviousTab = nil,
     Tabs = {},
     TabButtons = {},
 
-    --// Dependency Boxes \\--
     DependencyBoxes = {},
 
-    --// Keybinds Frame \\--
     KeybindFrame = nil,
     KeybindContainer = nil,
     KeybindToggles = {},
 
-    --// Notifications \\--
     Notifications = {},
     NotifySide = "Right",
     NotifyTweenInfo = TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
 
-    --// Dialogues \\--
     Dialogues = {},
     ActiveDialog = nil,
 
-    --// Loading Window \\--
     ActiveLoading = nil,
 
-    --// Context Menu \\--
     ContextMenus = {}, 
 
-    --// Corners \\--
     Corners = {},
     SpecificCorners = {},
 
-    --// Animations \\--
     TweenInfo = TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
 
     TabTransitionInfo = TweenInfo.new(0.22, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
     TabSwipeOffset = 26,
     TabSwipeFrom = "bottom",
 
-    WindowAnimationInfo = TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+    WindowAnimationInfo = TweenInfo.new(0.35, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
     DropdownTransitionInfo = TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
     KeyPickerTransitionInfo = TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
 
@@ -237,17 +233,14 @@ local Library = {
         KeyPicker = false
     },
 
-    --// States \\--
     Toggled = false,
     Unloaded = false,
 
-    --// Elements \\--
     Labels = Labels,
     Buttons = Buttons,
     Toggles = Toggles,
     Options = Options,
 
-    --// Options \\--
     ToggleKeybind = Enum.KeyCode.RightControl,
     ShowToggleFrameInKeybinds = true,
 
@@ -258,12 +251,10 @@ local Library = {
     CantDragForced = false,
     DraggableElements = {},
 
-    --// Pop Out \\--
     PopOutSnapDistance = 80,
     PopOutDragThreshold = 8,
     PopOutHoldTime = 0.15,
 
-    --// Signals \\--
     Signals = {},
     UnloadSignals = {},
 
@@ -272,15 +263,14 @@ local Library = {
     DPIScale = 1,
     CornerRadius = 4,
 
-    --// Scheme \\--
     IsLightTheme = false,
     Scheme = {
-        BackgroundColor = Color3.fromRGB(14, 14, 16),
-        MainColor = Color3.fromRGB(19, 19, 21),
+        BackgroundColor = Color3.fromRGB(42, 15, 31),
+        MainColor = Color3.fromRGB(61, 26, 46),
         AccentColor = Color3.fromRGB(255, 110, 180),
-        OutlineColor = Color3.fromRGB(21, 21, 23),
-        FontColor = Color3.fromRGB(245, 245, 245),
-        Font = Font.fromEnum(Enum.Font.GothamSemibold),
+        OutlineColor = Color3.fromRGB(107, 45, 78),
+        FontColor = Color3.fromRGB(255, 240, 245),
+        Font = Font.fromEnum(Enum.Font.Gotham),
 
         RedColor = Color3.fromRGB(255, 50, 50),
         DestructiveColor = Color3.fromRGB(220, 38, 38),
@@ -290,19 +280,15 @@ local Library = {
         BackgroundImage = ""
     },
 
-    --// Registry \\--
     Registry = {},
     Scales = {},
     ScalesOffset = {},
 
-    --// Mouse \\--
     OriginalMouseIconEnabled = UserInputService.MouseIconEnabled,
     ShowCursorBinding = string.sub(tostring({}), 10),
 
-    --// Image Manager \\--
     ImageManager = CustomImageManager,
 
-    --// Misc \\--
     Notify = nil, Toggle = nil -- we love luau lsp
 }
 
@@ -324,7 +310,6 @@ else
 end
 
 local Templates = {
-    --// UI \\--
     Frame = {
         BorderSizePixel = 0,
     },
@@ -369,7 +354,6 @@ local Templates = {
         ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
     },
 
-    --// Library \\--
     Window = {
         Title = "No Title",
         Footer = "No Footer",
@@ -383,7 +367,6 @@ local Templates = {
         Resizable = true,
         AlwaysOnTop = false,
 
-        --// Window Snapping \\--
         Snapping = false,
         SnapDistance = 28,
         SnapMargin = 8,
@@ -410,18 +393,14 @@ local Templates = {
         SidebarCompacted = false,
         MinContainerWidth = 256,
 
-        --// Snapping \\--
         MinSidebarWidth = 128,
         SidebarCompactWidth = 48,
         SidebarCollapseThreshold = 0.5,
 
-        --// Dragging \\--
         CompactWidthActivation = 128,
 
-        --// Background \\--
         BackgroundImage = "",
 
-        --// Animations \\--
         Animations = {
             ToggleWindow = false,
             TabSwitch = false,
@@ -626,7 +605,6 @@ local SideIndex = {
     right = 2,
 }
 
---// Scheme Functions \\--
 local SchemeReplaceAlias = {
     RedColor = "Red",
     WhiteColor = "White",
@@ -661,7 +639,6 @@ local function GetSchemeValue(Index)
     return Library.Scheme[Index]
 end
 
---// Basic Functions \\--
 local function WaitForEvent(Event, Timeout, Condition)
     local Bindable = Instance.new("BindableEvent")
     local Connection = Event:Once(function(...)
@@ -757,7 +734,6 @@ local function Round(Value, Rounding)
     return tonumber(string.format("%." .. Rounding .. "f", Value))
 end
 
---// Fuzzy Search \\--
 local function FuzzyScore(Text: string, Search: string): (boolean, number)
     if Search == "" then
         return true, 0
@@ -766,7 +742,6 @@ local function FuzzyScore(Text: string, Search: string): (boolean, number)
         return false, 0
     end
 
-    --// Fast path: literal substring match (also the best possible score) \\--
     local ExactIdx = Text:find(Search, 1, true)
     if ExactIdx then
         local PrevChar = ExactIdx > 1 and Text:sub(ExactIdx - 1, ExactIdx - 1) or ""
@@ -775,7 +750,6 @@ local function FuzzyScore(Text: string, Search: string): (boolean, number)
         return true, 1e5 - ExactIdx + (AtBoundary and 500 or 0) + (Search:len() * 5)
     end
 
-    --// Fallback: fuzzy, in-order, non-consecutive character matching \\--
     local TextLen, SearchLen = Text:len(), Search:len()
     if SearchLen > TextLen then
         return false, 0
@@ -859,7 +833,6 @@ local function MatchesSearch(ElementInfo, Search: string, ForceMatch: boolean?):
         return true
     end
 
-    --// Optional: search inside Dropdown value lists, so e.g. searching a specific option name reveals the Dropdown that contains it \\--
     if typeof(ElementInfo.Values) == "table" then
         local Checked = 0
         for Key, Value in ElementInfo.Values do
@@ -1089,7 +1062,6 @@ local function ApplySearchToTab(Tab, Search)
     local HasVisible = false
     local BestScore = 0
 
-    --// If the Tab itself matches Search (by name/description), don't filter out its contents -- pull everything in the Tab along with it \\--
     local TabMatches = TryFuzzyMatch(Tab.Name, Search) or TryFuzzyMatch(Tab.Description, Search)
     BestScore = math.max(BestScore, FuzzyMatchScore(Tab.Name, Search), FuzzyMatchScore(Tab.Description, Search))
 
@@ -1560,7 +1532,6 @@ function Library:Validate(Table: { [string]: any }, Template: { [string]: any })
     return Table
 end
 
---// Creator Functions \\--
 local function FillInstance(Table: { [string]: any }, Instance: GuiObject)
     local ThemeProperties = Library.Registry[Instance] or {}
 
@@ -1776,7 +1747,6 @@ local function RestoreMouseIcon()
     if Cursor then Cursor.Visible = false end
 end
 
---// Notification \\--
 local NotificationArea
 local NotifyOrder = {}
 do
@@ -1796,7 +1766,6 @@ do
     )
 end
 
---// Icons \\--
 local CheckIcon, ArrowIcon, ResizeIcon, KeyIcon, MoveIcon, PopOutIcon, CloseIcon
 function Library:SetIconModule(module: IconModule)
     FetchIcons = true
@@ -1820,7 +1789,6 @@ if OnlineFetchIcons and OnlineIcons then
     Library:SetIconModule(OnlineIcons)
 end
 
---// Lib Functions \\--
 Library.Cursor = {}
 
 function Library.Cursor:ResetCross()
@@ -1910,7 +1878,6 @@ function Library:ResetCursorIcon()
     Library.Cursor:ResetIcon()
 end
 
---// Colors \\--
 function Library:GetBetterColor(Color: Color3, Add: number): Color3
     Add = Add * (Library.IsLightTheme and -4 or 2)
     return Color3.fromRGB(
@@ -2066,7 +2033,6 @@ function PositionDraggable(UI: GuiObject, StartPos: UDim2?)
     UI.Position = GetNonOverlappingPosition(UI, StartPos)
 end
 
---// Window Snapping \\--
 local function GetCoreGuiInset(): (Vector2, Vector2)
     local Success, TopLeft, BottomRight = pcall(function()
         return GuiService:GetGuiInset()
@@ -2435,7 +2401,6 @@ function Library:AddBlank(Frame: GuiObject, Size: UDim2)
     })
 end
 
---// Animations \\--
 local TransparencyCache = {}
 local ActiveTabTweens = setmetatable({}, { __mode = "k" })
 
@@ -2538,7 +2503,6 @@ function Library:PlayTabAnimation(Tab, Showing: boolean, OnComplete: (() -> ())?
     end
 end
 
---// Pop Out \\--
 function Library:MakeBoxPopOut(Box: any, Options: {
     Enabled: boolean?,
     Header: GuiObject?,
@@ -2947,7 +2911,6 @@ function Library:MakeBoxPopOut(Box: any, Options: {
     end))
 end
 
---// Deprecated \\--
 function Library:MakeOutline(Frame: GuiObject, Corner: number?, ZIndex: number?)
     warn("TokaiHub:MakeOutline is deprecated, please use TokaiHub:AddOutline instead.")
     local Holder = New("Frame", {
@@ -3423,7 +3386,6 @@ function Library:AddDraggableImageButton(...)
     return DraggableImageButton
 end
 
---// Watermark - Deprecated \\--
 do
     local WatermarkLabel = Library:AddDraggableLabel("")
     WatermarkLabel:SetVisible(false)
@@ -3439,7 +3401,6 @@ do
     end
 end
 
---// Context Menu \\--
 local CurrentMenu
 function Library:AddContextMenu(
     Holder: GuiObject,
@@ -3800,7 +3761,6 @@ Library:GiveSignal(UserInputService.InputBegan:Connect(function(Input: InputObje
     end
 end))
 
---// Tooltip \\--
 local TooltipLabel = New("TextLabel", {
     AutomaticSize = Enum.AutomaticSize.Y,
     BackgroundColor3 = "BackgroundColor",
@@ -4674,10 +4634,6 @@ do
                 end
             end
 
-            if Info.NoUI then
-                return
-            end
-
             if KeyPicker.Mode == "Toggle" and ParentObj.Type == "Toggle" and ParentObj.Disabled then
                 KeybindsToggle:SetVisibility(false)
                 return
@@ -4688,6 +4644,10 @@ do
 
             if KeyPicker.SyncToggleState and ParentObj.Value ~= State then
                 ParentObj:SetValue(State)
+            end
+
+            if Info.NoUI then
+                return
             end
 
             if KeybindsToggle.Loaded then
@@ -5198,7 +5158,6 @@ do
             })
         )
 
-        --// Color Menu \\--
         local MapSize = Library.IsMobile and 140 or 200
         local BarWidth = 16
         local MenuWidth = MapSize + BarWidth + 6 + 12
@@ -5241,7 +5200,6 @@ do
         ColorMenu.List.Padding = UDim.new(0, 0)
         ColorPicker.ColorMenu = ColorMenu
 
-        --// Content Holder \\--
         local ContentHolder = New("Frame", {
             AutomaticSize = Enum.AutomaticSize.Y,
             BackgroundTransparency = 1,
@@ -5260,12 +5218,11 @@ do
             Parent = ContentHolder,
         })
 
-        --// Footer \\--
         local FooterHeight = Library.IsMobile and 30 or 22
 
         local FooterBackground = New("Frame", {
             BackgroundColor3 = function()
-                return Color3.fromRGB(23, 23, 25)
+                return Library:GetBetterColor(Library.Scheme.BackgroundColor, 4)
             end,
             Size = UDim2.new(1, 0, 0, FooterHeight),
             Parent = ColorMenu.Menu,
@@ -5419,7 +5376,6 @@ do
             })
         end
 
-        --// Resizing \\--
         local ResizeGrabber
         if Info.Resizable then
             local BaseMapSize = 200
@@ -5591,7 +5547,6 @@ do
             })
         )
 
-        --// Context Menu \\--
         local ContextMenu
         ContextMenu = Library:AddContextMenu(Holder, UDim2.fromOffset(93, 0), function()
             return { Holder.AbsoluteSize.X + 1.5, 0.5 }
@@ -5671,7 +5626,6 @@ do
             end
         end
 
-        --// Copy/Paste Buttons \\--
         local ActionHolder = New("Frame", {
             BackgroundTransparency = 1,
             Size = UDim2.new(1, 0, 0, 20),
@@ -5787,7 +5741,6 @@ do
             end)
         end))
 
-        --// End \\--
         function ColorPicker:SetHSVFromRGB(Color)
             ColorPicker.Hue, ColorPicker.Sat, ColorPicker.Vib = Color:ToHSV()
         end
@@ -6212,7 +6165,6 @@ do
             Data.Size = Params.Size or 14
             Data.Visible = if typeof(Params.Visible) == "boolean" then Params.Visible else true
             Data.Idx = typeof(Second) == "table" and First or nil
-            Data.Tag = Params.Tag or nil
         else
             Data.Text = First or ""
             Data.DoesWrap = Second or false
@@ -6249,37 +6201,6 @@ do
             Visible = Label.Visible,
             Parent = Container,
         })
-
-        -- TokaiHub: Tag/Badge on Label
-        if Data.Tag and not Data.DoesWrap then
-            New("UIListLayout", {
-                FillDirection = Enum.FillDirection.Horizontal,
-                HorizontalAlignment = Enum.HorizontalAlignment.Right,
-                Padding = UDim.new(0, 6),
-                Parent = TextLabel,
-            })
-            local LabelTag = New("Frame", {
-                AutomaticSize = Enum.AutomaticSize.X,
-                BackgroundColor3 = Library.Scheme.AccentColor,
-                Size = UDim2.fromOffset(0, 13),
-                Parent = TextLabel,
-            })
-            New("UICorner", { CornerRadius = UDim.new(0, 3), Parent = LabelTag })
-            New("UIPadding", {
-                PaddingLeft = UDim.new(0, 4), PaddingRight = UDim.new(0, 4),
-                PaddingTop = UDim.new(0, 1), PaddingBottom = UDim.new(0, 1),
-                Parent = LabelTag,
-            })
-            New("TextLabel", {
-                AutomaticSize = Enum.AutomaticSize.X,
-                BackgroundTransparency = 1,
-                Size = UDim2.fromScale(0, 1),
-                Text = Data.Tag,
-                TextColor3 = Library.Scheme.BackgroundColor,
-                TextSize = 9,
-                Parent = LabelTag,
-            })
-        end
 
         function Label:Display()
             if not Label.DoesWrap then
@@ -6549,36 +6470,72 @@ do
                 end
 
                 Library:SafeCallback(Button.Func)
+            end))
 
-                -- TokaiHub: Ripple effect - clamped to button bounds
-                do
-                    local UIS        = game:GetService("UserInputService")
-                    local MousePos   = UIS:GetMouseLocation()
-                    local BtnAbsPos  = Button.Base.AbsolutePosition
-                    local BtnAbsSize = Button.Base.AbsoluteSize
-                    local RelX       = math.clamp(MousePos.X - BtnAbsPos.X, 0, BtnAbsSize.X)
-                    local RelY       = math.clamp(MousePos.Y - BtnAbsPos.Y, 0, BtnAbsSize.Y)
-                    local RippleSize = math.max(BtnAbsSize.X, BtnAbsSize.Y) * 2.4
+            -- ── Sóng 2 chiều từ điểm nhấn ──
+            table.insert(Button.Connections, Button.Base.InputBegan:Connect(function(Input)
+                if Input.UserInputType ~= Enum.UserInputType.MouseButton1
+                and Input.UserInputType ~= Enum.UserInputType.Touch then return end
+                if Button.Disabled then return end
 
-                    -- clip parent so ripple stays inside button
-                    Button.Base.ClipsDescendants = true
+                local bW = Button.Base.AbsoluteSize.X
+                local bH = Button.Base.AbsoluteSize.Y
+                local rx = Mouse.X - Button.Base.AbsolutePosition.X
+                local ry = Mouse.Y - Button.Base.AbsolutePosition.Y
+                local maxR = math.sqrt(bW^2 + bH^2) * 1.5
 
-                    local Ripple = New("Frame", {
-                        AnchorPoint            = Vector2.new(0.5, 0.5),
-                        BackgroundColor3       = Library.Scheme.AccentColor,
-                        BackgroundTransparency = 0.5,
-                        Position               = UDim2.fromOffset(RelX, RelY),
-                        Size                   = UDim2.fromOffset(0, 0),
-                        ZIndex                 = Button.Base.ZIndex + 2,
-                        Parent                 = Button.Base,
-                    })
-                    New("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Ripple })
-                    TweenService:Create(Ripple, TweenInfo.new(0.38, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                        Size                   = UDim2.fromOffset(RippleSize, RippleSize),
-                        BackgroundTransparency = 1,
-                    }):Play()
-                    game:GetService("Debris"):AddItem(Ripple, 0.42)
-                end
+                -- Vòng tròn lan rộng
+                local ripple = Instance.new("Frame")
+                ripple.Size = UDim2.fromOffset(0, 0)
+                ripple.Position = UDim2.fromOffset(rx, ry)
+                ripple.AnchorPoint = Vector2.new(0.5, 0.5)
+                ripple.BackgroundColor3 = Library.Scheme.AccentColor
+                ripple.BackgroundTransparency = 0.60
+                ripple.ZIndex = Button.Base.ZIndex + 2
+                ripple.Parent = Button.Base
+                local rc = Instance.new("UICorner"); rc.CornerRadius = UDim.new(1, 0); rc.Parent = ripple
+                TweenService:Create(ripple, TweenInfo.new(0.70, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                    {Size = UDim2.fromOffset(maxR, maxR)}):Play()
+                TweenService:Create(ripple, TweenInfo.new(0.70, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+                    {BackgroundTransparency = 1}):Play()
+                game:GetService("Debris"):AddItem(ripple, 0.75)
+
+                -- Sóng TRÁI
+                local wH = bH * 0.46
+                local lw = Instance.new("Frame")
+                lw.Size = UDim2.fromOffset(3, wH)
+                lw.Position = UDim2.fromOffset(rx, (bH - wH) * 0.5)
+                lw.AnchorPoint = Vector2.new(1, 0)
+                lw.BackgroundColor3 = Library.Scheme.FontColor
+                lw.BackgroundTransparency = 0.40
+                lw.ZIndex = Button.Base.ZIndex + 1
+                lw.Parent = Button.Base
+                local lc = Instance.new("UICorner"); lc.CornerRadius = UDim.new(0, 3); lc.Parent = lw
+                TweenService:Create(lw, TweenInfo.new(0.38, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                    {Size = UDim2.fromOffset(rx + 3, wH * 0.55), BackgroundTransparency = 1}):Play()
+                game:GetService("Debris"):AddItem(lw, 0.42)
+
+                -- Sóng PHẢI
+                local rw = Instance.new("Frame")
+                rw.Size = UDim2.fromOffset(3, wH)
+                rw.Position = UDim2.fromOffset(rx, (bH - wH) * 0.5)
+                rw.AnchorPoint = Vector2.new(0, 0)
+                rw.BackgroundColor3 = Library.Scheme.FontColor
+                rw.BackgroundTransparency = 0.40
+                rw.ZIndex = Button.Base.ZIndex + 1
+                rw.Parent = Button.Base
+                local rwc = Instance.new("UICorner"); rwc.CornerRadius = UDim.new(0, 3); rwc.Parent = rw
+                TweenService:Create(rw, TweenInfo.new(0.38, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                    {Size = UDim2.fromOffset(bW - rx + 3, wH * 0.55), BackgroundTransparency = 1}):Play()
+                game:GetService("Debris"):AddItem(rw, 0.42)
+
+                -- Button squish nhẹ khi nhấn
+                TweenService:Create(Button.Base, TweenInfo.new(0.06, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                    {BackgroundTransparency = 0.55}):Play()
+                task.delay(0.06, function()
+                    TweenService:Create(Button.Base, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+                        {BackgroundTransparency = 0.85}):Play()
+                end)
             end))
         end
 
@@ -7104,7 +7061,6 @@ do
             Addons = {},
             AnyKeyPickerPicking = false,
 
-            Tag = Info.Tag or nil,
             Variant = "Switch",
             Type = "Toggle",
 
@@ -7136,32 +7092,6 @@ do
             Padding = UDim.new(0, 6),
             Parent = Label,
         })
-
-        -- TokaiHub: Tag/Badge on Toggle
-        if Toggle.Tag then
-            local TagBadge = New("Frame", {
-                AutomaticSize = Enum.AutomaticSize.X,
-                BackgroundColor3 = Library.Scheme.AccentColor,
-                LayoutOrder = -1,
-                Size = UDim2.fromOffset(0, 13),
-                Parent = Label,
-            })
-            New("UICorner", { CornerRadius = UDim.new(0, 3), Parent = TagBadge })
-            New("UIPadding", {
-                PaddingLeft = UDim.new(0, 4), PaddingRight = UDim.new(0, 4),
-                PaddingTop = UDim.new(0, 1), PaddingBottom = UDim.new(0, 1),
-                Parent = TagBadge,
-            })
-            New("TextLabel", {
-                AutomaticSize = Enum.AutomaticSize.X,
-                BackgroundTransparency = 1,
-                Size = UDim2.fromScale(0, 1),
-                Text = Toggle.Tag,
-                TextColor3 = Library.Scheme.BackgroundColor,
-                TextSize = 9,
-                Parent = TagBadge,
-            })
-        end
 
         local Switch = New("Frame", {
             AnchorPoint = Vector2.new(1, 0),
@@ -7233,34 +7163,32 @@ do
             TweenService:Create(Label, Library.TweenInfo, {
                 TextTransparency = Toggle.Value and 0 or 0.4,
             }):Play()
-            TweenService:Create(Ball, Library.TweenInfo, {
-                AnchorPoint = Vector2.new(Offset, 0),
-                Position = UDim2.fromScale(Offset, 0),
-            }):Play()
+
+            -- ── Wall-bounce toggle ball ──
+            local TargetAnchor = Vector2.new(Offset, 0)
+            local TargetPos    = UDim2.fromScale(Offset, 0)
+            -- Phase 1: bay ngang + squish (rộng + dẹp)
+            TweenService:Create(Ball,
+                TweenInfo.new(0.11, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+                {AnchorPoint = TargetAnchor, Position = TargetPos,
+                 Size = UDim2.fromScale(1.55, 0.72)}):Play()
+            task.delay(0.11, function()
+                if Library.Unloaded then return end
+                -- Phase 2: đập tường → squish dọc (cao + hẹp)
+                TweenService:Create(Ball,
+                    TweenInfo.new(0.07, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                    {Size = UDim2.fromScale(0.68, 1.35)}):Play()
+                task.delay(0.07, function()
+                    if Library.Unloaded then return end
+                    -- Phase 3: nảy về hình tròn với overshoot
+                    TweenService:Create(Ball,
+                        TweenInfo.new(0.30, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+                        {Size = UDim2.fromScale(1, 1)}):Play()
+                end)
+            end)
 
             Ball.BackgroundColor3 = Library.Scheme.FontColor
             Library.Registry[Ball].BackgroundColor3 = "FontColor"
-
-            -- TokaiHub: Pulse glow on enable - parented to Switch itself
-            if Toggle.Value and not Toggle.Disabled then
-                Switch.ClipsDescendants = false
-                local Glow = New("Frame", {
-                    AnchorPoint            = Vector2.new(0.5, 0.5),
-                    BackgroundColor3       = Library.Scheme.AccentColor,
-                    BackgroundTransparency = 0.5,
-                    Position               = UDim2.fromScale(0.5, 0.5),
-                    Size                   = Switch.Size,
-                    ZIndex                 = Switch.ZIndex - 1,
-                    Parent                 = Switch,
-                })
-                New("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Glow })
-                local GlowSize = Switch.AbsoluteSize
-                TweenService:Create(Glow, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                    Size                   = UDim2.fromOffset(GlowSize.X + 8, GlowSize.Y + 8),
-                    BackgroundTransparency = 1,
-                }):Play()
-                game:GetService("Debris"):AddItem(Glow, 0.4)
-            end
         end
 
         function Toggle:OnChanged(Func)
@@ -7766,6 +7694,20 @@ do
             Parent = Bar,
         })
 
+        -- ── Slider knob indicator ──
+        local _TK_SliderKnob = Instance.new("Frame")
+        _TK_SliderKnob.Size = UDim2.fromOffset(12, 12)
+        _TK_SliderKnob.AnchorPoint = Vector2.new(0.5, 0.5)
+        _TK_SliderKnob.Position = UDim2.fromScale(1, 0.5)
+        _TK_SliderKnob.BackgroundColor3 = Library.Scheme.FontColor
+        _TK_SliderKnob.ZIndex = Fill.ZIndex + 1
+        _TK_SliderKnob.Parent = Fill
+        local _TK_kc = Instance.new("UICorner"); _TK_kc.CornerRadius = UDim.new(1, 0); _TK_kc.Parent = _TK_SliderKnob
+        local _TK_ks = Instance.new("UIStroke")
+        _TK_ks.Color = Library.Scheme.AccentColor; _TK_ks.Thickness = 1.5; _TK_ks.Parent = _TK_SliderKnob
+        Library.Registry[_TK_SliderKnob] = {BackgroundColor3 = "FontColor"}
+        Library.Registry[_TK_ks] = {Color = "AccentColor"}
+
         table.insert(
             Library.Corners,
             New("UICorner", {
@@ -8029,6 +7971,13 @@ do
                 Library.ActiveLoading.Sidebar.Container.ScrollingEnabled = false
             end
 
+            -- ── Squish knob khi bắt đầu kéo ──
+            if _TK_SliderKnob then
+                TweenService:Create(_TK_SliderKnob,
+                    TweenInfo.new(0.07, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                    {Size = UDim2.fromOffset(18, 10)}):Play()
+            end
+
             while IsDragInput(Input) and not Slider.Destroyed do
                 local Location = Mouse.X
                 local Scale = math.clamp((Location - Bar.AbsolutePosition.X) / Bar.AbsoluteSize.X, 0, 1)
@@ -8041,7 +7990,26 @@ do
                     Slider:RunChanged()
                 end
 
+                -- Cập nhật vị trí knob theo Fill
+                if _TK_SliderKnob and Fill then
+                    _TK_SliderKnob.Position = UDim2.fromScale(1, 0.5)
+                end
+
                 RunService.RenderStepped:Wait()
+            end
+
+            -- ── Spring-back khi thả ──
+            if _TK_SliderKnob then
+                TweenService:Create(_TK_SliderKnob,
+                    TweenInfo.new(0.06, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                    {Size = UDim2.fromOffset(10, 18)}):Play()
+                task.delay(0.06, function()
+                    if _TK_SliderKnob and _TK_SliderKnob.Parent then
+                        TweenService:Create(_TK_SliderKnob,
+                            TweenInfo.new(0.30, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+                            {Size = UDim2.fromOffset(12, 12)}):Play()
+                    end
+                end)
             end
 
             if Library.ActiveTab then
@@ -8453,7 +8421,6 @@ do
             local IsDictionary = not IsSequentialArray(Values)
 
             --// Fuzzy-match dropdown values the same way the sidebar search
-            --// does, so e.g. "clr" can find "Clear Inventory" in a list \\--
             local SearchQuery = SearchBox and NormalizeSearch(SearchBox.Text:lower()) or ""
             local IsSearching = SearchQuery ~= ""
 
@@ -8492,7 +8459,6 @@ do
             end
 
             if IsSearching then
-                --// Best matches first; ties fall back to original order \\--
                 table.sort(Pending, function(A, B)
                     if A.MatchScore ~= B.MatchScore then
                         return A.MatchScore > B.MatchScore
@@ -10722,7 +10688,6 @@ function Library:CreateWindow(WindowInfo)
 
     local TabButtonsStyle = WindowInfo.TabButtonsStyle
 
-    --// Old Naming \\--
     if WindowInfo.Compact ~= nil then
         WindowInfo.SidebarCompacted = WindowInfo.Compact
     end
@@ -10790,9 +10755,8 @@ function Library:CreateWindow(WindowInfo)
 
         MainFrame = New("TextButton", {
             BackgroundColor3 = function()
-                return Color3.fromRGB(14, 14, 16)
+                return Library:GetBetterColor(Library.Scheme.BackgroundColor, -1)
             end,
-            BackgroundTransparency = 0.8,
             Name = "Main",
             Text = "",
             Position = WindowInfo.Position,
@@ -10880,14 +10844,12 @@ function Library:CreateWindow(WindowInfo)
 
         --// Top Bar \\-
         TopBar = New("Frame", {
-            BackgroundColor3 = "BackgroundColor",
-            BackgroundTransparency = 0.8,
+            BackgroundTransparency = 1,
             Size = UDim2.new(1, 0, 0, 48),
             Parent = MainFrame,
         })
         Library:MakeDraggable(MainFrame, TopBar, false, true, WindowSnapConfig)
 
-        --// Title \\--
         TitleHolder = New("Frame", {
             BackgroundTransparency = 1,
             Size = UDim2.new(0, InitialLeftWidth, 1, 0),
@@ -10911,41 +10873,14 @@ function Library:CreateWindow(WindowInfo)
                 Library:ApplyLucideIcon(WindowIcon, Icon)
             end
         else
-            -- TokaiHub: Logo từ Github → workspace executor
-            local LogoURL   = "https://raw.githubusercontent.com/longhazem/TKBLACKLIB/refs/heads/main/assets/logo.png"
-            local LogoAsset = ""
-            local LogoPath  = "TokaiHub/logo.png"
-
-            pcall(function()
-                if not isfolder("TokaiHub") then makefolder("TokaiHub") end
-                if not isfile(LogoPath) then
-                    writefile(LogoPath, game:HttpGet(LogoURL))
-                end
-            end)
-            pcall(function()
-                LogoAsset = getcustomasset(LogoPath)
-            end)
-
-            WindowIcon = New("ImageLabel", {
+            WindowIcon = New("TextLabel", {
                 BackgroundTransparency = 1,
-                Image                  = LogoAsset,
-                ScaleType              = Enum.ScaleType.Fit,
-                Size                   = WindowInfo.IconSize,
-                Visible                = LogoAsset ~= "",
-                Parent                 = TitleHolder,
+                Size = WindowInfo.IconSize,
+                Text = WindowInfo.Title:sub(1, 1),
+                TextScaled = true,
+                Visible = false,
+                Parent = TitleHolder,
             })
-
-            if LogoAsset == "" then
-                -- Fallback: first letter
-                WindowIcon = New("TextLabel", {
-                    BackgroundTransparency = 1,
-                    Size                   = WindowInfo.IconSize,
-                    Text                   = WindowInfo.Title:sub(1, 1),
-                    TextScaled             = true,
-                    Visible                = false,
-                    Parent                 = TitleHolder,
-                })
-            end
         end
 
         local X = Library:GetTextBounds(
@@ -10962,28 +10897,6 @@ function Library:CreateWindow(WindowInfo)
             Parent = TitleHolder,
         })
 
-        --// Top Right Bar \\--
-        -- TokaiHub: SubTabBar - millennium-style chip bar
-        -- Sits over the RightWrapper area, visible only when TagTab is active
-        local SubTabBar = New("Frame", {
-            AnchorPoint            = Vector2.new(1, 0),
-            BackgroundTransparency = 1,
-            Position               = UDim2.new(1, -49, 0, 0),
-            Size                   = UDim2.new(1, -InitialLeftWidth - 57 - 1, 1, 0),
-            Visible                = false,
-            ZIndex                 = 10,
-            Parent                 = TopBar,
-        })
-        New("UIListLayout", {
-            FillDirection     = Enum.FillDirection.Horizontal,
-            VerticalAlignment = Enum.VerticalAlignment.Center,
-            Padding           = UDim.new(0, 0),
-            Parent            = SubTabBar,
-        })
-        Library.SubTabBar      = SubTabBar
-        Library.RightWrapperRef = nil  -- set after RightWrapper is created
-
-
         RightWrapper = New("Frame", {
             AnchorPoint = Vector2.new(1, 0.5),
             BackgroundTransparency = 1,
@@ -10999,7 +10912,6 @@ function Library:CreateWindow(WindowInfo)
             Padding = UDim.new(0, 8),
             Parent = RightWrapper,
         })
-        Library.RightWrapperRef = RightWrapper  -- TokaiHub: ref for TagTab toggle
 
         CurrentTabInfo = New("Frame", {
             Size = UDim2.fromScale(WindowInfo.DisableSearch and 1 or 0.5, 1),
@@ -11119,13 +11031,11 @@ function Library:CreateWindow(WindowInfo)
             Library:ApplyLucideIcon(MoveIconImage, MoveIcon)
         end
 
-        --// Bottom Bar \\--
         BottomBackground = New("Frame", {
             AnchorPoint = Vector2.new(0, 1),
             BackgroundColor3 = function()
-                return Color3.fromRGB(23, 23, 25)
+                return Library:GetBetterColor(Library.Scheme.BackgroundColor, 4)
             end,
-            BackgroundTransparency = 0.8,
             Position = UDim2.fromScale(0, 1),
             Size = UDim2.new(1, 0, 0, 20 + WindowInfo.CornerRadius),
             Parent = MainFrame
@@ -11161,7 +11071,6 @@ function Library:CreateWindow(WindowInfo)
             Parent = BottomBar,
         })
 
-        --// Resize Button \\--
         if WindowInfo.Resizable then
             ResizeButton = New("TextButton", {
                 AnchorPoint = Vector2.new(1, 0),
@@ -11191,18 +11100,15 @@ function Library:CreateWindow(WindowInfo)
             Library:ApplyLucideIcon(WindowResizeIcon, ResizeIcon)
         end
 
-        --// Tabs \\--
         Tabs = New("ScrollingFrame", {
             AutomaticCanvasSize = Enum.AutomaticSize.Y,
             BackgroundColor3 = "BackgroundColor",
-            BackgroundTransparency = 0.8,
             CanvasSize = UDim2.fromScale(0, 0),
             Position = UDim2.fromOffset(0, 49),
             ScrollBarThickness = 0,
             Size = UDim2.new(0, InitialLeftWidth, 1, -70),
             Parent = MainFrame,
         })
-        Library._SidebarScrollFrame = Tabs
         New("UIListLayout", {
             Padding = UDim.new(0, TabButtonsStyle.Gap),
             Parent = Tabs,
@@ -11215,13 +11121,11 @@ function Library:CreateWindow(WindowInfo)
             Parent = Tabs,
         })
 
-        --// Container \\--
         Container = New("Frame", {
             AnchorPoint = Vector2.new(1, 0),
             BackgroundColor3 = function()
-                return Color3.fromRGB(14, 14, 16)
+                return Library:GetBetterColor(Library.Scheme.BackgroundColor, 1)
             end,
-            BackgroundTransparency = 0.8,
             ClipsDescendants = true,
             Name = "Container",
             Position = UDim2.new(1, 0, 0, 49),
@@ -11239,7 +11143,6 @@ function Library:CreateWindow(WindowInfo)
         Library.WindowContainer = Container
     end
 
-    --// Window Table \\--
     local Window = {}
     local Fading = false
 
@@ -11537,8 +11440,6 @@ function Library:CreateWindow(WindowInfo)
         local Tooltip = nil
         local Order = nil
 
-        local SubTabNames = nil
-
         if select("#", ...) == 1 and typeof(...) == "table" then
             local Info = select(1, ...)
             Name = Info.Name or "Tab"
@@ -11546,7 +11447,6 @@ function Library:CreateWindow(WindowInfo)
             Description = Info.Description
             Tooltip = Info.Tooltip
             Order = Info.Order
-            SubTabNames = Info.SubTabs or Info.Tabs  -- TokaiHub: millennium-style sub-tabs
         else
             Name = select(1, ...)
             Icon = select(2, ...)
@@ -11640,7 +11540,6 @@ function Library:CreateWindow(WindowInfo)
                 Icon = TabIcon,
             })
 
-            --// Tab Container \\--
             TabContainer = New("Frame", {
                 BackgroundTransparency = 1,
                 Position = UDim2.fromScale(0, 0),
@@ -11718,7 +11617,6 @@ function Library:CreateWindow(WindowInfo)
             end
         end
 
-        --// Tab Table \\--
         local Tab = {
             Name = Name,
             Description = Description,
@@ -11749,7 +11647,6 @@ function Library:CreateWindow(WindowInfo)
             DependencyGroupboxes = {},
         }
 
-        --// Warning Box \\--
         local WarningBoxHolder = New("Frame", {
             AutomaticSize = Enum.AutomaticSize.Y,
             BackgroundTransparency = 1,
@@ -11861,7 +11758,6 @@ function Library:CreateWindow(WindowInfo)
             })
         end
 
-        --// Tab Handlers \\--
         function Tab:UpdateWarningBox(Info)
             if typeof(Info.IsNormal) == "boolean" then
                 Tab.WarningBox.IsNormal = Info.IsNormal
@@ -12221,7 +12117,6 @@ function Library:CreateWindow(WindowInfo)
                     end
                 end
 
-                --// Execution \\--
                 if not Tabbox.ActiveTab then
                     Tab:Show()
                 end
@@ -12346,7 +12241,6 @@ function Library:CreateWindow(WindowInfo)
             do
                 GroupboxHolder = New("Frame", {
                     BackgroundColor3 = "BackgroundColor",
-                    BackgroundTransparency = 0.5,
                     Size = UDim2.fromScale(1, 0),
                     Parent = BoxHolder,
                 })
@@ -12697,313 +12591,6 @@ function Library:CreateWindow(WindowInfo)
             return Groupbox
         end
 
-
-        --// TokaiHub: AddTagGroup - Clickable category chips that expand sub-groupboxes
-        --// Usage:
-        --//   local TagGroup = Tab:AddTagGroup({ Side = "Left", Name = "Combat" })
-        --//   local SubFov   = TagGroup:AddSubTag("FOV")
-        --//   SubFov:AddSlider("FovSlider", { Text = "FOV", Min = 10, Max = 120, Default = 70 })
-        function Tab:AddTagGroup(Info)
-            Info = Info or {}
-            if typeof(Info.Side) == "string" then
-                local lowerSide = string.lower(Info.Side)
-                Info.Side = SideIndex[lowerSide] or 1
-            end
-            Info.Side = Info.Side or 1
-
-            -- Outer holder parented to left/right column
-            local OuterHolder = New("Frame", {
-                AutomaticSize = Enum.AutomaticSize.Y,
-                BackgroundTransparency = 1,
-                Size = UDim2.fromScale(1, 0),
-                Parent = Info.Side == 1 and TabLeft or TabRight,
-            })
-            New("UIListLayout", { Padding = UDim.new(0, 6), Parent = OuterHolder })
-            New("UIPadding", {
-                PaddingBottom = UDim.new(0, 4),
-                PaddingTop    = UDim.new(0, 4),
-                Parent        = OuterHolder,
-            })
-
-            -- Card wrapper
-            local Card = New("Frame", {
-                AutomaticSize = Enum.AutomaticSize.Y,
-                BackgroundColor3 = "BackgroundColor",
-                Size = UDim2.fromScale(1, 0),
-                Parent = OuterHolder,
-            })
-            table.insert(Library.Corners, New("UICorner", {
-                CornerRadius = UDim.new(0, WindowInfo.CornerRadius),
-                Parent = Card,
-            }))
-            Library:AddOutline(Card)
-            New("UIListLayout", { Parent = Card })
-
-            -- Header row (group name + chip strip)
-            local Header = New("Frame", {
-                AutomaticSize = Enum.AutomaticSize.Y,
-                BackgroundTransparency = 1,
-                Size = UDim2.fromScale(1, 0),
-                Parent = Card,
-            })
-            New("UIPadding", {
-                PaddingLeft   = UDim.new(0, 8),
-                PaddingRight  = UDim.new(0, 8),
-                PaddingTop    = UDim.new(0, 7),
-                PaddingBottom = UDim.new(0, 7),
-                Parent        = Header,
-            })
-            New("UIListLayout", {
-                FillDirection       = Enum.FillDirection.Vertical,
-                Padding             = UDim.new(0, 6),
-                Parent              = Header,
-            })
-
-            -- Group title
-            if Info.Name and Info.Name ~= "" then
-                New("TextLabel", {
-                    AutomaticSize        = Enum.AutomaticSize.Y,
-                    BackgroundTransparency = 1,
-                    Size                 = UDim2.fromScale(1, 0),
-                    Text                 = Info.Name,
-                    TextSize             = 14,
-                    TextXAlignment       = Enum.TextXAlignment.Left,
-                    Parent               = Header,
-                })
-            end
-
-            -- Chip strip (horizontal row of sub-tag buttons)
-            local ChipStrip = New("Frame", {
-                AutomaticSize = Enum.AutomaticSize.XY,
-                BackgroundTransparency = 1,
-                Size = UDim2.fromScale(1, 0),
-                Parent = Header,
-            })
-            New("UIListLayout", {
-                FillDirection        = Enum.FillDirection.Horizontal,
-                VerticalAlignment    = Enum.VerticalAlignment.Center,
-                Padding              = UDim.new(0, 5),
-                Parent               = ChipStrip,
-            })
-
-            -- Divider between chip strip and content
-            local Divider = Library:MakeLine(Card, {
-                Size = UDim2.fromScale(1, 0),
-            })
-
-            -- Content area (shows one sub-tag's groupbox at a time)
-            local ContentArea = New("Frame", {
-                AutomaticSize = Enum.AutomaticSize.Y,
-                BackgroundTransparency = 1,
-                Size = UDim2.fromScale(1, 0),
-                Parent = Card,
-            })
-            New("UIListLayout", { Parent = ContentArea })
-            New("UIPadding", {
-                PaddingLeft   = UDim.new(0, 7),
-                PaddingRight  = UDim.new(0, 7),
-                PaddingTop    = UDim.new(0, 7),
-                PaddingBottom = UDim.new(0, 7),
-                Parent        = ContentArea,
-            })
-
-            -- TagGroup object
-            local TagGroup = {
-                Type        = "TagGroup",
-                SubTags     = {},
-                ActiveSubTag = nil,
-                Destroyed   = false,
-            }
-
-            function TagGroup:AddSubTag(SubName, IconName)
-                -- Chip button
-                local Chip = New("TextButton", {
-                    AutomaticSize      = Enum.AutomaticSize.X,
-                    BackgroundColor3   = "MainColor",
-                    Size               = UDim2.fromOffset(0, 22),
-                    Text               = "",
-                    AutoButtonColor    = false,
-                    Parent             = ChipStrip,
-                })
-                table.insert(Library.Corners, New("UICorner", {
-                    CornerRadius = UDim.new(0, 999),
-                    Parent       = Chip,
-                }))
-                Library:AddOutline(Chip)
-                New("UIPadding", {
-                    PaddingLeft  = UDim.new(0, 10),
-                    PaddingRight = UDim.new(0, 10),
-                    Parent       = Chip,
-                })
-
-                local ChipContent = New("Frame", {
-                    AnchorPoint           = Vector2.new(0.5, 0.5),
-                    AutomaticSize         = Enum.AutomaticSize.X,
-                    BackgroundTransparency = 1,
-                    Position              = UDim2.fromScale(0.5, 0.5),
-                    Size                  = UDim2.fromOffset(0, 14),
-                    Parent                = Chip,
-                })
-                New("UIListLayout", {
-                    FillDirection     = Enum.FillDirection.Horizontal,
-                    VerticalAlignment = Enum.VerticalAlignment.Center,
-                    Padding           = UDim.new(0, 5),
-                    Parent            = ChipContent,
-                })
-
-                local ChipIcon
-                local BoxIcon = Library:GetCustomIcon(IconName)
-                if BoxIcon then
-                    ChipIcon = New("ImageLabel", {
-                        ImageColor3       = "FontColor",
-                        ImageTransparency = 0.5,
-                        Size              = UDim2.fromOffset(12, 12),
-                        Parent            = ChipContent,
-                    })
-                    Library:ApplyLucideIcon(ChipIcon, BoxIcon)
-                end
-
-                local ChipLabel = New("TextLabel", {
-                    AutomaticSize      = Enum.AutomaticSize.X,
-                    BackgroundTransparency = 1,
-                    Size               = UDim2.fromOffset(0, 14),
-                    Text               = SubName,
-                    TextSize           = 12,
-                    TextTransparency   = 0.4,
-                    Parent             = ChipContent,
-                })
-
-                -- Sub-content panel (hidden by default)
-                local SubPanel = New("Frame", {
-                    AutomaticSize      = Enum.AutomaticSize.Y,
-                    BackgroundTransparency = 1,
-                    Size               = UDim2.fromScale(1, 0),
-                    Visible            = false,
-                    Parent             = ContentArea,
-                })
-                New("UIListLayout", { Padding = UDim.new(0, 6), Parent = SubPanel })
-
-                -- Sub-tag object wraps a Funcs-like interface
-                local SubTag = {
-                    Type         = "SubTag",
-                    Name         = SubName,
-                    Chip         = Chip,
-                    ChipLabel    = ChipLabel,
-                    Panel        = SubPanel,
-                    Container    = SubPanel,
-                    Elements     = {},
-                    DependencyBoxes = {},
-                    Connections  = {},
-                    Destroyed    = false,
-                    Tabboxes     = {},
-                }
-
-                -- Wire Funcs (AddToggle, AddSlider etc) onto SubTag via its panel
-                -- We replicate the Groupbox interface by using a fake groupbox table
-                local FakeGroupbox = {
-                    Type        = "Groupbox",
-                    Container   = SubPanel,
-                    Elements    = SubTag.Elements,
-                    DependencyBoxes = SubTag.DependencyBoxes,
-                    Connections = SubTag.Connections,
-                    Destroyed   = false,
-                    IsKeyTab    = false,
-                    Tabboxes    = {},
-                }
-                function FakeGroupbox:Resize()
-                    -- auto size via AutomaticSize
-                end
-                setmetatable(FakeGroupbox, { __index = Funcs })
-                setmetatable(SubTag, {
-                    __index = function(t, k)
-                        local v = FakeGroupbox[k]
-                        if type(v) == "function" then
-                            return function(self2, ...)
-                                return v(FakeGroupbox, ...)
-                            end
-                        end
-                        return v
-                    end
-                })
-
-                local function SetActive(active)
-                    if active then
-                        -- Hide current
-                        if TagGroup.ActiveSubTag and TagGroup.ActiveSubTag ~= SubTag then
-                            TagGroup.ActiveSubTag.Panel.Visible = false
-                            TweenService:Create(TagGroup.ActiveSubTag.ChipLabel, Library.TweenInfo, {
-                                TextTransparency = 0.4,
-                            }):Play()
-                            TweenService:Create(TagGroup.ActiveSubTag.Chip, Library.TweenInfo, {
-                                BackgroundColor3 = Library.Scheme.MainColor,
-                            }):Play()
-                            if Library.Registry[TagGroup.ActiveSubTag.Chip] then
-                                Library.Registry[TagGroup.ActiveSubTag.Chip].BackgroundColor3 = "MainColor"
-                            end
-                        end
-
-                        SubPanel.Visible = true
-                        Divider.Visible  = true
-                        TagGroup.ActiveSubTag = SubTag
-
-                        TweenService:Create(ChipLabel, Library.TweenInfo, { TextTransparency = 0 }):Play()
-                        TweenService:Create(Chip, Library.TweenInfo, {
-                            BackgroundColor3 = Library.Scheme.AccentColor,
-                        }):Play()
-                        if Library.Registry[Chip] then
-                            Library.Registry[Chip].BackgroundColor3 = "AccentColor"
-                        end
-                        if ChipIcon then
-                            TweenService:Create(ChipIcon, Library.TweenInfo, { ImageTransparency = 0 }):Play()
-                        end
-                    else
-                        SubPanel.Visible = false
-                        if TagGroup.ActiveSubTag == SubTag then
-                            TagGroup.ActiveSubTag = nil
-                            -- Hide divider when nothing active
-                            local anyActive = false
-                            for _, st in TagGroup.SubTags do
-                                if st.Panel.Visible then anyActive = true break end
-                            end
-                            Divider.Visible = anyActive
-                        end
-                        TweenService:Create(ChipLabel, Library.TweenInfo, { TextTransparency = 0.4 }):Play()
-                        TweenService:Create(Chip, Library.TweenInfo, {
-                            BackgroundColor3 = Library.Scheme.MainColor,
-                        }):Play()
-                        if Library.Registry[Chip] then
-                            Library.Registry[Chip].BackgroundColor3 = "MainColor"
-                        end
-                        if ChipIcon then
-                            TweenService:Create(ChipIcon, Library.TweenInfo, { ImageTransparency = 0.5 }):Play()
-                        end
-                    end
-                end
-
-                table.insert(SubTag.Connections, Chip.MouseButton1Click:Connect(function()
-                    if TagGroup.ActiveSubTag == SubTag then
-                        SetActive(false)  -- toggle off same chip
-                    else
-                        SetActive(true)
-                    end
-                end))
-
-                table.insert(TagGroup.SubTags, SubTag)
-
-                -- Auto-show first sub-tag
-                if #TagGroup.SubTags == 1 then
-                    SetActive(true)
-                end
-
-                return SubTag
-            end
-
-            -- Initial divider hidden until a sub-tag is active
-            Divider.Visible = false
-
-            return TagGroup
-        end
-
         --// Deprecated - Use Tab:AddGroupbox instead.
         function Tab:AddLeftGroupbox(Name, IconName, Visible, Collapsed, DisableCollapsing)
             return Tab:AddGroupbox({ Side = 1, Name = Name, IconName = IconName, Visible = Visible, Collapsed = Collapsed, DisableCollapsing = DisableCollapsing })
@@ -13175,7 +12762,6 @@ function Library:CreateWindow(WindowInfo)
             Library.Tabs[Name] = nil
         end
 
-        --// Execution \\--
         if typeof(Tooltip) == "string" then
             Tab.TooltipTable = Library:AddTooltip(Tooltip, nil, TabButton)
         end
@@ -13194,738 +12780,8 @@ function Library:CreateWindow(WindowInfo)
 
         Library.Tabs[Name] = Tab
 
-        -- TokaiHub + Millennium: SubTabs system ────────────────────────────────
-        -- Exact port of millennium tab() multi_section pattern
-        -- multi_holder = top chip bar | multi_section_button_holder = scrolling chips
-        -- page = vertical scroll content | sub_tab = left+right columns inside page
-        if SubTabNames and #SubTabNames > 0 then
-            local TabContainer = Library.Tabs[Name].Container
-
-            -- ── multi_holder: top chip bar (exact millennium dimensions) ────────
-            local MultiHolder = New("Frame", {
-                BackgroundTransparency = 1,
-                ClipsDescendants       = true,
-                Size                   = UDim2.new(1, 0, 0, 56),
-                ZIndex                 = 4,
-                Parent                 = TabContainer,
-            })
-            -- Bottom divider
-            New("Frame", {
-                AnchorPoint      = Vector2.new(0, 1),
-                BackgroundColor3 = Color3.fromRGB(21, 21, 23),
-                BorderSizePixel  = 0,
-                Position         = UDim2.fromScale(0, 1),
-                Size             = UDim2.new(1, 0, 0, 1),
-                Parent           = MultiHolder,
-            })
-
-            -- ── multi_section_button_holder: horizontal scrolling chip strip ────
-            local ChipStrip = New("ScrollingFrame", {
-                AutomaticCanvasSize    = Enum.AutomaticSize.X,
-                BackgroundTransparency = 1,
-                CanvasSize             = UDim2.fromScale(0, 0),
-                ScrollBarThickness     = 0,
-                ScrollingDirection     = Enum.ScrollingDirection.X,
-                Size                   = UDim2.fromScale(1, 1),
-                Parent                 = MultiHolder,
-            })
-            New("UIListLayout", {
-                FillDirection     = Enum.FillDirection.Horizontal,
-                Padding           = UDim.new(0, 7),
-                SortOrder         = Enum.SortOrder.LayoutOrder,
-                VerticalAlignment = Enum.VerticalAlignment.Center,
-                Parent            = ChipStrip,
-            })
-            New("UIPadding", {
-                PaddingTop    = UDim.new(0, 8),
-                PaddingBottom = UDim.new(0, 7),
-                PaddingLeft   = UDim.new(0, 7),
-                PaddingRight  = UDim.new(0, 7),
-                Parent        = ChipStrip,
-            })
-
-            -- Neon scroll fades on chip strip (millennium _make_fade)
-            pcall(function()
-                Library:_RegisterScrollFade(Library:_MakeFade(MultiHolder, "x", "start"), "x", "start", function() return ChipStrip end)
-                Library:_RegisterScrollFade(Library:_MakeFade(MultiHolder, "x", "end"),   "x", "end",   function() return ChipStrip end)
-            end)
-
-            -- ── tab_holder: content area below chip bar ──────────────────────────
-            local TabHolder = New("Frame", {
-                BackgroundTransparency = 1,
-                Position               = UDim2.new(0, 0, 0, 57),
-                Size                   = UDim2.new(1, 0, 1, -57),
-                ClipsDescendants       = true,
-                Parent                 = TabContainer,
-            })
-
-            -- Global fade overlay (millennium page transition)
-            local GlobalFade = New("Frame", {
-                BackgroundColor3       = Color3.fromRGB(14, 14, 16),
-                BackgroundTransparency = 1,
-                Size                   = UDim2.fromScale(1, 1),
-                ZIndex                 = 10,
-                Parent                 = TabHolder,
-            })
-
-            local ActiveSubTab  = nil
-            local SubTabObjects = {}
-
-            for _, SubName in SubTabNames do
-                -- ── Chip button (millennium multi_items["button"] exact) ──────────
-                local Chip = New("TextButton", {
-                    AutomaticSize          = Enum.AutomaticSize.X,
-                    BackgroundColor3       = Color3.fromRGB(25, 25, 29),
-                    BackgroundTransparency = 1,
-                    ClipsDescendants       = true,
-                    Size                   = UDim2.fromOffset(0, 39),
-                    Text                   = "",
-                    AutoButtonColor        = false,
-                    Parent                 = ChipStrip,
-                })
-                New("UICorner", { CornerRadius = UDim.new(0, 7), Parent = Chip })
-                New("UIPadding", { PaddingLeft = UDim.new(0, 10), PaddingRight = UDim.new(0, 10), Parent = Chip })
-
-                local ChipLabel = New("TextLabel", {
-                    AutomaticSize          = Enum.AutomaticSize.X,
-                    BackgroundTransparency = 1,
-                    Size                   = UDim2.new(0, 0, 1, 0),
-                    Text                   = SubName,
-                    TextColor3             = Color3.fromRGB(62, 62, 63),
-                    TextSize               = 16,
-                    TextXAlignment         = Enum.TextXAlignment.Left,
-                    Parent                 = Chip,
-                })
-                New("UIPadding", { PaddingLeft = UDim.new(0, 5), PaddingRight = UDim.new(0, 5), Parent = ChipLabel })
-
-                -- Accent underline bottom (millennium multi_items["accent"] exact)
-                local Accent = New("Frame", {
-                    AnchorPoint            = Vector2.new(0, 1),
-                    BackgroundColor3       = Library.Scheme.AccentColor,
-                    BackgroundTransparency = 1,
-                    Position               = UDim2.new(0, 10, 1, 4),
-                    Size                   = UDim2.new(1, -20, 0, 6),
-                    BorderSizePixel        = 0,
-                    Parent                 = Chip,
-                })
-                New("UICorner", { CornerRadius = UDim.new(0, 999), Parent = Accent })
-
-                -- ── Page: vertical scroll (millennium multi_items["tab"]) ─────────
-                local Page = New("ScrollingFrame", {
-                    AutomaticCanvasSize    = Enum.AutomaticSize.Y,
-                    BackgroundTransparency = 1,
-                    CanvasSize             = UDim2.fromScale(0, 0),
-                    ScrollBarThickness     = 3,
-                    ScrollBarImageColor3   = Color3.fromRGB(44, 44, 46),
-                    ScrollingDirection     = Enum.ScrollingDirection.Y,
-                    Size                   = UDim2.fromScale(1, 1),
-                    ClipsDescendants       = true,
-                    Visible                = false,
-                    Parent                 = TabHolder,
-                })
-                New("UIListLayout", {
-                    FillDirection   = Enum.FillDirection.Vertical,
-                    HorizontalFlex  = Enum.UIFlexAlignment.Fill,
-                    Padding         = UDim.new(0, 7),
-                    SortOrder       = Enum.SortOrder.LayoutOrder,
-                    Parent          = Page,
-                })
-                New("UIPadding", {
-                    PaddingTop    = UDim.new(0, 7),
-                    PaddingBottom = UDim.new(0, 7),
-                    PaddingLeft   = UDim.new(0, 7),
-                    PaddingRight  = UDim.new(0, 7),
-                    Parent        = Page,
-                })
-
-                -- ── sub_tab: left+right column row inside Page ────────────────────
-                local SubTabRow = New("Frame", {
-                    AutomaticSize          = Enum.AutomaticSize.Y,
-                    BackgroundTransparency = 1,
-                    Size                   = UDim2.fromScale(1, 0),
-                    Parent                 = Page,
-                })
-                New("UIListLayout", {
-                    FillDirection  = Enum.FillDirection.Horizontal,
-                    HorizontalFlex = Enum.UIFlexAlignment.Fill,
-                    Padding        = UDim.new(0, 7),
-                    SortOrder      = Enum.SortOrder.LayoutOrder,
-                    Parent         = SubTabRow,
-                })
-
-                -- Left column
-                local SubLeft = New("Frame", {
-                    AutomaticSize          = Enum.AutomaticSize.Y,
-                    BackgroundTransparency = 1,
-                    Size                   = UDim2.fromScale(0.5, 0),
-                    Parent                 = SubTabRow,
-                })
-                New("UIListLayout", { Padding = UDim.new(0, 7), SortOrder = Enum.SortOrder.LayoutOrder, Parent = SubLeft })
-
-                -- Right column
-                local SubRight = New("Frame", {
-                    AutomaticSize          = Enum.AutomaticSize.Y,
-                    BackgroundTransparency = 1,
-                    Size                   = UDim2.fromScale(0.5, 0),
-                    Parent                 = SubTabRow,
-                })
-                New("UIListLayout", { Padding = UDim.new(0, 7), SortOrder = Enum.SortOrder.LayoutOrder, Parent = SubRight })
-
-                -- ── SubTab object ─────────────────────────────────────────────────
-                local SubTab = {
-                    Name      = SubName,
-                    Chip      = Chip,
-                    ChipLabel = ChipLabel,
-                    Accent    = Accent,
-                    Page      = Page,
-                    Groupboxes = {},
-                    Destroyed  = false,
-                }
-
-                function SubTab:AddGroupbox(Info2)
-                    if self.Destroyed then return nil end
-                    Info2 = Library:Validate(Info2, Templates.Groupbox)
-                    local sideStr = (typeof(Info2.Side) == "string") and string.lower(Info2.Side) or nil
-                    local sideIdx = sideStr and (({left=1,right=2})[sideStr] or 1) or (Info2.Side or 1)
-                    local ParentCol = sideIdx == 2 and SubRight or SubLeft
-
-                    -- Section frame (millennium section style)
-                    local GbFrame = New("Frame", {
-                        AutomaticSize    = Enum.AutomaticSize.Y,
-                        BackgroundColor3 = Color3.fromRGB(17, 17, 19),
-                        Size             = UDim2.fromScale(1, 0),
-                        Parent           = ParentCol,
-                    })
-                    New("UICorner", { CornerRadius = UDim.new(0, 7), Parent = GbFrame })
-                    New("UIStroke", { Color = Color3.fromRGB(23, 23, 29), Thickness = 1, ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Parent = GbFrame })
-                    New("UIListLayout", { Parent = GbFrame })
-                    table.insert(Library.Corners, GbFrame:FindFirstChildOfClass("UICorner"))
-
-                    -- Section header
-                    local Header = New("Frame", {
-                        AutomaticSize          = Enum.AutomaticSize.Y,
-                        BackgroundTransparency = 1,
-                        Size                   = UDim2.fromScale(1, 0),
-                        Parent                 = GbFrame,
-                    })
-                    New("UIListLayout", { Parent = Header })
-                    New("UIPadding", { PaddingBottom = UDim.new(0, 3), PaddingLeft = UDim.new(0, 10), PaddingRight = UDim.new(0, 10), PaddingTop = UDim.new(0, 3), Parent = Header })
-                    New("TextLabel", {
-                        AutomaticSize          = Enum.AutomaticSize.Y,
-                        BackgroundTransparency = 1,
-                        Size                   = UDim2.fromScale(1, 0),
-                        Text                   = Info2.Name or "",
-                        TextColor3             = Library.Scheme.AccentColor,
-                        TextSize               = 13,
-                        Font                   = Enum.Font.GothamSemibold,
-                        TextWrapped            = true,
-                        TextXAlignment         = Enum.TextXAlignment.Left,
-                        Parent                 = Header,
-                    })
-                    -- Header bottom line
-                    New("Frame", {
-                        AnchorPoint      = Vector2.new(0, 1),
-                        BackgroundColor3 = Color3.fromRGB(23, 23, 29),
-                        BorderSizePixel  = 0,
-                        Position         = UDim2.fromScale(0, 1),
-                        Size             = UDim2.new(1, 0, 0, 1),
-                        Parent           = Header,
-                    })
-
-                    -- Element container
-                    local GbContainer = New("Frame", {
-                        AutomaticSize          = Enum.AutomaticSize.Y,
-                        BackgroundTransparency = 1,
-                        Size                   = UDim2.fromScale(1, 0),
-                        Parent                 = GbFrame,
-                    })
-                    New("UIListLayout", { Padding = UDim.new(0, 0), Parent = GbContainer })
-
-                    local Groupbox = {
-                        Type            = "Groupbox",
-                        Container       = GbContainer,
-                        Elements        = {},
-                        DependencyBoxes = {},
-                        Connections     = {},
-                        Tabboxes        = {},
-                        Destroyed       = false,
-                        IsKeyTab        = false,
-                    }
-                    function Groupbox:Resize() end
-                    setmetatable(Groupbox, { __index = Funcs })
-                    table.insert(self.Groupboxes, Groupbox)
-                    return Groupbox
-                end
-
-                function SubTab:AddLeftGroupbox(N, I)  return self:AddGroupbox({ Side = 1, Name = N, IconName = I }) end
-                function SubTab:AddRightGroupbox(N, I) return self:AddGroupbox({ Side = 2, Name = N, IconName = I }) end
-
-                -- ── Activate (millennium open_page exact) ─────────────────────────
-                local function Activate()
-                    if ActiveSubTab and ActiveSubTab ~= SubTab then
-                        local prev = ActiveSubTab
-                        -- Fade transition
-                        GlobalFade.BackgroundTransparency = 0
-                        TweenService:Create(GlobalFade, TweenInfo.new(0.4, Enum.EasingStyle.Quad), { BackgroundTransparency = 1 }):Play()
-
-                        TweenService:Create(prev.ChipLabel, Library.TweenInfo, { TextColor3 = Color3.fromRGB(62, 62, 63) }):Play()
-                        TweenService:Create(prev.Accent,    Library.TweenInfo, { BackgroundTransparency = 1 }):Play()
-                        TweenService:Create(prev.Chip,      Library.TweenInfo, { BackgroundTransparency = 1 }):Play()
-                        prev.Page.Visible = false
-                    end
-
-                    ActiveSubTab = SubTab
-
-                    TweenService:Create(ChipLabel, Library.TweenInfo, { TextColor3 = Color3.fromRGB(255, 255, 255) }):Play()
-                    TweenService:Create(Accent,    Library.TweenInfo, { BackgroundTransparency = 0 }):Play()
-                    TweenService:Create(Chip,      Library.TweenInfo, { BackgroundTransparency = 0 }):Play()
-                    TweenService:Create(Page,      TweenInfo.new(0.4, Enum.EasingStyle.Quad), { Size = UDim2.fromScale(1, 1) }):Play()
-                    Page.Visible = true
-                end
-
-                Chip.MouseButton1Down:Connect(Activate)
-
-                -- Hover
-                Chip.MouseEnter:Connect(function()
-                    if ActiveSubTab ~= SubTab then
-                        TweenService:Create(ChipLabel, Library.TweenInfo, { TextColor3 = Color3.fromRGB(180, 180, 180) }):Play()
-                        TweenService:Create(Chip, Library.TweenInfo, { BackgroundTransparency = 0.5 }):Play()
-                    end
-                end)
-                Chip.MouseLeave:Connect(function()
-                    if ActiveSubTab ~= SubTab then
-                        TweenService:Create(ChipLabel, Library.TweenInfo, { TextColor3 = Color3.fromRGB(62, 62, 63) }):Play()
-                        TweenService:Create(Chip, Library.TweenInfo, { BackgroundTransparency = 1 }):Play()
-                    end
-                end)
-
-                table.insert(SubTabObjects, SubTab)
-                if #SubTabObjects == 1 then Activate() end
-            end
-
-            -- Hide normal Tab scroll frames (chip bar owns the space)
-            for _, child in TabContainer:GetChildren() do
-                if child ~= MultiHolder and child ~= TabHolder and child:IsA("ScrollingFrame") then
-                    child.Visible = false
-                end
-            end
-
-            return table.unpack(SubTabObjects)
-        end
-        -- ─────────────────────────────────────────────────────────────────────
-
         return Tab
     end
-
-
-    --// TokaiHub: AddTagTab ──────────────────────────────────────────────────
-    --// Creates a sidebar tab that shows a sub-tab chip bar + content area
-    --// y chang millennium layout: sidebar trái chọn tab lớn,
-    --// top bar hiện chip nhỏ (FOV, Gun Mod...), content đổi theo chip
-    --//
-    --// Usage:
-    --//   local CombatTab = Window:AddTagTab("Combat", "sword")
-    --//   local FovSub    = CombatTab:AddSubTab("FOV", "eye")
-    --//   local GunSub    = CombatTab:AddSubTab("Gun Mod", "crosshair")
-    --//   local LeftBox   = FovSub:AddGroupbox({ Side = "Left", Name = "FOV Settings" })
-    --//   LeftBox:AddSlider("FovSlider", { Text = "FOV", Min = 10, Max = 120, Default = 70 })
-    --// TokaiHub: AddTagTab - millennium-style sidebar tab with sub-tab chip bar
-    --// Sidebar left = big tabs (Combat, Visuals...)
-    --// Top bar = sub-tab chips (FOV, Gun Mod...) - swapped in like millennium
-    --// Content area = left/right columns per sub-tab
-    --//
-    --// Usage:
-    --//   local CombatTab = Window:AddTagTab("Combat", "sword")
-    --//   local FovSub    = CombatTab:AddSubTab("FOV")
-    --//   local Box       = FovSub:AddGroupbox({ Side = "Left", Name = "FOV" })
-    --//   Box:AddSlider("Fov", { Text = "FOV", Min = 10, Max = 120, Default = 70 })
-    function Window:AddTagTab(Name, IconName, Tooltip, Order)
-        if typeof(Name) == "table" then
-            local Info = Name
-            Name      = Info.Name     or "Tab"
-            IconName  = Info.Icon     or Info.IconName
-            Tooltip   = Info.Tooltip
-            Order     = Info.Order
-        end
-        if not tonumber(Order) then Order = #Tabs:GetChildren() end
-
-        -- ── Sidebar button ──────────────────────────────────────────────────
-        local TabButton = New("TextButton", {
-            BackgroundColor3     = "MainColor",
-            BackgroundTransparency = 1,
-            Size                 = UDim2.new(1, 0, 0, 40),
-            Text                 = "",
-            LayoutOrder          = Order,
-            AutoButtonColor      = false,
-            Parent               = Tabs,
-        })
-        New("UICorner", { CornerRadius = UDim.new(0, WindowInfo.TabButtonsStyle.CornerRadius), Parent = TabButton })
-
-        local TabIndicator
-        if WindowInfo.TabButtonsStyle.Indicator then
-            TabIndicator = New("Frame", {
-                AnchorPoint          = Vector2.new(1, 0.5),
-                BackgroundColor3     = "AccentColor",
-                BackgroundTransparency = 1,
-                Position             = UDim2.new(0, -2, 0.5, 0),
-                Size                 = UDim2.fromOffset(WindowInfo.TabButtonsStyle.IndicatorWidth, WindowInfo.TabButtonsStyle.IndicatorHeight),
-                Parent               = TabButton,
-            })
-            New("UICorner", { CornerRadius = UDim.new(1, 0), Parent = TabIndicator })
-        end
-
-        local BtnHolder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.fromScale(1, 1), Parent = TabButton })
-        local IsCompactLocal = WindowInfo.SidebarCompacted
-        New("UIPadding", {
-            PaddingBottom = UDim.new(0, IsCompactLocal and 6 or 11),
-            PaddingLeft   = UDim.new(0, IsCompactLocal and 6 or 12),
-            PaddingRight  = UDim.new(0, IsCompactLocal and 6 or 12),
-            PaddingTop    = UDim.new(0, IsCompactLocal and 6 or 11),
-            Parent        = BtnHolder,
-        })
-        local TabLabel = New("TextLabel", {
-            BackgroundTransparency = 1,
-            Position    = UDim2.fromOffset(30, 0),
-            Size        = UDim2.new(1, -30, 1, 0),
-            Text        = Name,
-            TextSize    = 16,
-            TextTransparency = 0.5,
-            TextXAlignment = Enum.TextXAlignment.Left,
-            Visible     = not IsCompactLocal,
-            Parent      = BtnHolder,
-        })
-        local TabIconImg
-        local BoxIcon = Library:GetCustomIcon(IconName)
-        if BoxIcon then
-            TabIconImg = New("ImageLabel", {
-                ImageColor3    = BoxIcon.Custom and "WhiteColor" or "AccentColor",
-                ImageTransparency = 0.5,
-                ScaleType      = Enum.ScaleType.Fit,
-                Size           = UDim2.fromScale(1, 1),
-                SizeConstraint = IsCompactLocal and Enum.SizeConstraint.RelativeXY or Enum.SizeConstraint.RelativeYY,
-                Parent         = BtnHolder,
-            })
-            Library:ApplyLucideIcon(TabIconImg, BoxIcon)
-        end
-        table.insert(Library.TabButtons, { Label = TabLabel, Padding = BtnHolder:FindFirstChildOfClass("UIPadding"), Icon = TabIconImg })
-
-        -- ── Chip strip: lives in ScreenGui cache, re-parented to SubTabBar when active
-        local ChipStrip = New("ScrollingFrame", {
-            BackgroundTransparency   = 1,
-            CanvasSize               = UDim2.fromScale(0, 0),
-            AutomaticCanvasSize      = Enum.AutomaticSize.X,
-            ScrollBarThickness       = 0,
-            ScrollingDirection       = Enum.ScrollingDirection.X,
-            ClipsDescendants         = true,
-            Size                     = UDim2.fromScale(1, 1),
-            Visible                  = false,
-            Parent                   = ScreenGui,
-        })
-        New("UIListLayout", {
-            FillDirection     = Enum.FillDirection.Horizontal,
-            VerticalAlignment = Enum.VerticalAlignment.Center,
-            Padding           = UDim.new(0, 5),
-            SortOrder         = Enum.SortOrder.LayoutOrder,
-            Parent            = ChipStrip,
-        })
-        New("UIPadding", {
-            PaddingLeft   = UDim.new(0, 10),
-            PaddingRight  = UDim.new(0, 10),
-            PaddingTop    = UDim.new(0, 6),
-            PaddingBottom = UDim.new(0, 6),
-            Parent        = ChipStrip,
-        })
-
-        -- ── Content panel (full container area) ────────────────────────────
-        local TagTabContainer = New("Frame", {
-            BackgroundTransparency = 1,
-            Size                   = UDim2.fromScale(1, 1),
-            Visible                = false,
-            Parent                 = Container,
-        })
-
-        -- ── TagTab object ───────────────────────────────────────────────────
-        local TagTab = {
-            Name         = Name,
-            Type         = "TagTab",
-            SubTabs      = {},
-            ActiveSubTab = nil,
-            Connections  = {},
-            Destroyed    = false,
-            Button       = TabButton,
-            Container    = TagTabContainer,
-            ChipStrip    = ChipStrip,
-            Tabboxes     = {},
-        }
-
-        -- ── AddSubTab ───────────────────────────────────────────────────────
-        function TagTab:AddSubTab(SubName, SubIconName)
-
-            -- Chip button (millennium style: text with accent underline)
-            local Chip = New("TextButton", {
-                AutomaticSize          = Enum.AutomaticSize.X,
-                BackgroundColor3       = "MainColor",
-                BackgroundTransparency = 1,
-                ClipsDescendants       = true,
-                Size                   = UDim2.fromOffset(0, 36),
-                Text                   = "",
-                AutoButtonColor        = false,
-                Parent                 = ChipStrip,
-            })
-            New("UICorner", { CornerRadius = UDim.new(0, 6), Parent = Chip })
-            New("UIPadding", { PaddingLeft = UDim.new(0, 10), PaddingRight = UDim.new(0, 10), Parent = Chip })
-
-            local ChipInner = New("Frame", {
-                AnchorPoint            = Vector2.new(0.5, 0.5),
-                AutomaticSize          = Enum.AutomaticSize.X,
-                BackgroundTransparency = 1,
-                Position               = UDim2.fromScale(0.5, 0.5),
-                Size                   = UDim2.fromOffset(0, 16),
-                Parent                 = Chip,
-            })
-            New("UIListLayout", {
-                FillDirection     = Enum.FillDirection.Horizontal,
-                VerticalAlignment = Enum.VerticalAlignment.Center,
-                Padding           = UDim.new(0, 5),
-                Parent            = ChipInner,
-            })
-
-            local ChipIcon
-            local SubIcon = Library:GetCustomIcon(SubIconName)
-            if SubIcon then
-                ChipIcon = New("ImageLabel", {
-                    ImageColor3       = "FontColor",
-                    ImageTransparency = 0.5,
-                    Size              = UDim2.fromOffset(13, 13),
-                    Parent            = ChipInner,
-                })
-                Library:ApplyLucideIcon(ChipIcon, SubIcon)
-            end
-
-            local ChipLabel = New("TextLabel", {
-                AutomaticSize          = Enum.AutomaticSize.X,
-                BackgroundTransparency = 1,
-                Size                   = UDim2.fromOffset(0, 16),
-                Text                   = SubName,
-                TextSize               = 13,
-                TextTransparency       = 0.5,
-                Parent                 = ChipInner,
-            })
-
-            -- Accent underline (like millennium)
-            local ChipAccent = New("Frame", {
-                AnchorPoint            = Vector2.new(0, 1),
-                BackgroundColor3       = "AccentColor",
-                BackgroundTransparency = 1,
-                Position               = UDim2.new(0, 8, 1, 3),
-                Size                   = UDim2.new(1, -16, 0, 2),
-                Parent                 = Chip,
-            })
-            New("UICorner", { CornerRadius = UDim.new(1, 0), Parent = ChipAccent })
-
-            -- Sub-panel: left/right columns
-            local SubPanel = New("Frame", {
-                BackgroundTransparency = 1,
-                Size                   = UDim2.fromScale(1, 1),
-                Visible                = false,
-                Parent                 = TagTabContainer,
-            })
-
-            local SubLeft = New("ScrollingFrame", {
-                AutomaticCanvasSize      = Enum.AutomaticSize.Y,
-                BackgroundTransparency   = 1,
-                CanvasSize               = UDim2.fromScale(0, 0),
-                ScrollBarImageTransparency = 1,
-                ScrollBarThickness       = 0,
-                Size                     = UDim2.new(0.5, -3, 1, 0),
-                Parent                   = SubPanel,
-            })
-            New("UIListLayout", { Padding = UDim.new(0, 4), Parent = SubLeft })
-            New("UIPadding", { PaddingBottom = UDim.new(0, 4), PaddingLeft = UDim.new(0, 4), PaddingRight = UDim.new(0, 4), PaddingTop = UDim.new(0, 4), Parent = SubLeft })
-
-            local SubRight = New("ScrollingFrame", {
-                AnchorPoint              = Vector2.new(1, 0),
-                AutomaticCanvasSize      = Enum.AutomaticSize.Y,
-                BackgroundTransparency   = 1,
-                CanvasSize               = UDim2.fromScale(0, 0),
-                Position                 = UDim2.fromScale(1, 0),
-                ScrollBarImageTransparency = 1,
-                ScrollBarThickness       = 0,
-                Size                     = UDim2.new(0.5, -3, 1, 0),
-                Parent                   = SubPanel,
-            })
-            New("UIListLayout", { Padding = UDim.new(0, 4), Parent = SubRight })
-            New("UIPadding", { PaddingBottom = UDim.new(0, 4), PaddingLeft = UDim.new(0, 4), PaddingRight = UDim.new(0, 4), PaddingTop = UDim.new(0, 4), Parent = SubRight })
-
-            -- SubTab object with full Tab interface
-            local SubTab = {
-                Name         = SubName,
-                Type         = "Tab",
-                Chip         = Chip,
-                ChipLabel    = ChipLabel,
-                ChipIcon     = ChipIcon,
-                ChipAccent   = ChipAccent,
-                Container    = SubPanel,
-                Sides        = { SubLeft, SubRight },
-                Connections  = {},
-                Destroyed    = false,
-                Groupboxes   = {},
-                Tabboxes     = {},
-                DependencyBoxes      = {},
-                DependencyGroupboxes = {},
-            }
-
-            function SubTab:AddGroupbox(Info)
-                if self.Destroyed then return nil end
-                Info = Library:Validate(Info, Templates.Groupbox)
-
-                local sideStr = (typeof(Info.Side) == "string") and string.lower(Info.Side) or nil
-                local sideIdx = sideStr and ({ left = 1, right = 2 })[sideStr] or (Info.Side or 1)
-                local ParentFrame = sideIdx == 2 and SubRight or SubLeft
-
-                local BoxHolder = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), Parent = ParentFrame })
-                New("UIListLayout", { Padding = UDim.new(0, 6), Parent = BoxHolder })
-                New("UIPadding", { PaddingBottom = UDim.new(0, 4), PaddingTop = UDim.new(0, 4), Parent = BoxHolder })
-
-                local GbFrame = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundColor3 = "BackgroundColor", BackgroundTransparency = 0.5, Size = UDim2.fromScale(1, 0), Parent = BoxHolder })
-                table.insert(Library.Corners, New("UICorner", { CornerRadius = UDim.new(0, WindowInfo.CornerRadius), Parent = GbFrame }))
-                New("UIListLayout", { Parent = GbFrame })
-                Library:AddOutline(GbFrame)
-
-                local Header = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), Parent = GbFrame })
-                New("UIPadding", { PaddingBottom = UDim.new(0, 3), PaddingLeft = UDim.new(0, 8), PaddingRight = UDim.new(0, 8), PaddingTop = UDim.new(0, 3), Parent = Header })
-                New("UIListLayout", { Parent = Header })
-                New("TextLabel", {
-                    AutomaticSize = Enum.AutomaticSize.Y,
-                    BackgroundTransparency = 1,
-                    Size          = UDim2.fromScale(1, 0),
-                    Text          = Info.Name or "",
-                    TextSize      = 15,
-                    TextWrapped   = true,
-                    TextXAlignment = Enum.TextXAlignment.Left,
-                    Parent        = Header,
-                })
-
-                local GbContainer = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), Parent = GbFrame })
-                New("UIListLayout", { Padding = UDim.new(0, 4), Parent = GbContainer })
-                New("UIPadding", { PaddingBottom = UDim.new(0, 6), PaddingLeft = UDim.new(0, 6), PaddingRight = UDim.new(0, 6), PaddingTop = UDim.new(0, 2), Parent = GbContainer })
-
-                local Groupbox = {
-                    Type = "Groupbox", Container = GbContainer,
-                    Elements = {}, DependencyBoxes = {}, Connections = {}, Tabboxes = {},
-                    Destroyed = false, IsKeyTab = false,
-                }
-                function Groupbox:Resize() end
-                setmetatable(Groupbox, { __index = Funcs })
-                table.insert(SubTab.Groupboxes, Groupbox)
-                return Groupbox
-            end
-
-            function SubTab:AddLeftGroupbox(N, I)  return SubTab:AddGroupbox({ Side = 1, Name = N, IconName = I }) end
-            function SubTab:AddRightGroupbox(N, I) return SubTab:AddGroupbox({ Side = 2, Name = N, IconName = I }) end
-            function SubTab:Resize() end
-
-            -- Activate chip
-            local function ActivateChip()
-                -- Deactivate previous sub-tab
-                if TagTab.ActiveSubTab and TagTab.ActiveSubTab ~= SubTab then
-                    local prev = TagTab.ActiveSubTab
-                    prev.Container.Visible = false
-                    TweenService:Create(prev.ChipLabel,  Library.TweenInfo, { TextTransparency = 0.5 }):Play()
-                    TweenService:Create(prev.Chip,       Library.TweenInfo, { BackgroundTransparency = 1 }):Play()
-                    TweenService:Create(prev.ChipAccent, Library.TweenInfo, { BackgroundTransparency = 1 }):Play()
-                    if prev.ChipIcon then TweenService:Create(prev.ChipIcon, Library.TweenInfo, { ImageTransparency = 0.5 }):Play() end
-                end
-
-                -- Activate self
-                SubPanel.Visible = true
-                TagTab.ActiveSubTab = SubTab
-
-                TweenService:Create(ChipLabel,  Library.TweenInfo, { TextTransparency = 0 }):Play()
-                TweenService:Create(Chip,       Library.TweenInfo, { BackgroundTransparency = 0 }):Play()
-                TweenService:Create(ChipAccent, Library.TweenInfo, { BackgroundTransparency = 0 }):Play()
-                if ChipIcon then TweenService:Create(ChipIcon, Library.TweenInfo, { ImageTransparency = 0 }):Play() end
-            end
-
-            Chip.MouseButton1Click:Connect(ActivateChip)
-            table.insert(TagTab.SubTabs, SubTab)
-
-            -- Auto-activate first
-            if #TagTab.SubTabs == 1 then ActivateChip() end
-
-            return SubTab
-        end
-
-        -- ── Show / Hide (millennium open_tab equivalent) ────────────────────
-        function TagTab:Show()
-            if Library.ActiveTab == TagTab then return end
-            if Library.ActiveTab then Library.ActiveTab:Hide() end
-
-            -- Show SubTabBar, hide RightWrapper (search/info) - millennium pattern
-            if Library.RightWrapperRef then
-                Library.RightWrapperRef.Visible = false
-            end
-            Library.SubTabBar.Visible = true
-
-            -- Move ChipStrip into SubTabBar
-            ChipStrip.Parent  = Library.SubTabBar
-            ChipStrip.Visible = true
-            ChipStrip.Size    = UDim2.fromScale(1, 1)
-
-            Library:PlayTabAnimation(TagTab, true)
-            Library.ActiveTab = TagTab
-
-            TweenService:Create(TabButton, Library.TweenInfo, { BackgroundTransparency = 0 }):Play()
-            if TabIndicator then TweenService:Create(TabIndicator, Library.TweenInfo, { BackgroundTransparency = 0 }):Play() end
-            TweenService:Create(TabLabel, Library.TweenInfo, { TextTransparency = 0 }):Play()
-            if TabIconImg then TweenService:Create(TabIconImg, Library.TweenInfo, { ImageTransparency = 0 }):Play() end
-        end
-
-        function TagTab:Hide()
-            -- Move ChipStrip back to cache
-            ChipStrip.Visible = false
-            ChipStrip.Parent  = ScreenGui
-
-            -- Restore RightWrapper (search/info), hide SubTabBar
-            Library.SubTabBar.Visible = false
-            if Library.RightWrapperRef then
-                Library.RightWrapperRef.Visible = true
-            end
-
-            Library:PlayTabAnimation(TagTab, false)
-
-            TweenService:Create(TabButton, Library.TweenInfo, { BackgroundTransparency = 1 }):Play()
-            if TabIndicator then TweenService:Create(TabIndicator, Library.TweenInfo, { BackgroundTransparency = 1 }):Play() end
-            TweenService:Create(TabLabel, Library.TweenInfo, { TextTransparency = 0.5 }):Play()
-            if TabIconImg then TweenService:Create(TabIconImg, Library.TweenInfo, { ImageTransparency = 0.5 }):Play() end
-        end
-
-        function TagTab:Hover(Hovering)
-            if Library.ActiveTab == TagTab then return end
-            TweenService:Create(TabButton, Library.TweenInfo, { BackgroundTransparency = Hovering and 0.8 or 1 }):Play()
-        end
-
-        function TagTab:Destroy()
-            TagTab.Destroyed = true
-            for _, c in TagTab.Connections do c:Disconnect() end
-            TagTabContainer:Destroy()
-            ChipStrip:Destroy()
-            TabButton:Destroy()
-            Library.Tabs[Name] = nil
-        end
-
-        if typeof(Tooltip) == "string" then Library:AddTooltip(Tooltip, nil, TabButton) end
-
-        TabButton.MouseEnter:Connect(function()    TagTab:Hover(true) end)
-        TabButton.MouseLeave:Connect(function()    TagTab:Hover(false) end)
-        TabButton.MouseButton1Click:Connect(function() TagTab:Show() end)
-
-        if not Library.ActiveTab then TagTab:Show() end
-
-        Library.Tabs[Name] = TagTab
-        return TagTab
-    end
-
 
     function Window:AddKeyTab(...)
         local Name = nil
@@ -13941,7 +12797,6 @@ function Library:CreateWindow(WindowInfo)
             Description = Info.Description
             Tooltip = Info.Tooltip
             Order = Info.Order
-            SubTabNames = Info.SubTabs or Info.Tabs
         else
             Name = select(1, ...) or "Tab"
             Icon = select(2, ...)
@@ -14036,7 +12891,6 @@ function Library:CreateWindow(WindowInfo)
                 Icon = TabIcon,
             })
 
-            --// Tab Container \\--
             TabContainer = New("ScrollingFrame", {
                 AutomaticCanvasSize = Enum.AutomaticSize.Y,
                 BackgroundTransparency = 1,
@@ -14060,7 +12914,6 @@ function Library:CreateWindow(WindowInfo)
             })
         end
 
-        --// Tab Table \\--
         local Tab = {
             Description = Description,
             IsKeyTab = true,
@@ -14306,7 +13159,6 @@ function Library:CreateWindow(WindowInfo)
             end
         end
 
-        --// Execution \\--
         if typeof(Tooltip) == "string" then
             Tab.TooltipTable = Library:AddTooltip(Tooltip, nil, TabButton)
         end
@@ -15058,7 +13910,6 @@ function Library:CreateWindow(WindowInfo)
         end
     end
 
-    --// Execution \\--
     Library:GiveSignal(SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
         Library:UpdateSearch(SearchBox.Text)
     end))
@@ -15140,7 +13991,6 @@ function Library:CreateLoading(LoadingInfo)
         SidebarWidth = LoadingInfo.SidebarWidth,
     }
 
-    --// ScreenGui \\--
     local ScreenGui = New("ScreenGui", {
         Name = "TokaiHubLoading",
         DisplayOrder = 999,
@@ -15160,7 +14010,6 @@ function Library:CreateLoading(LoadingInfo)
         end)
     end)
 
-    --// Main Frame \\--
     local MainFrame = New("TextButton", {
         Name = "Main",
         AnchorPoint = Vector2.new(0.5, 0.5),
@@ -15184,7 +14033,6 @@ function Library:CreateLoading(LoadingInfo)
     table.insert(Library.Scales, MainScale)
     Library.ScalesOffset[MainScale] = Library.IsMobile and 0.2 or 0
 
-    --// Layout Containers \\--
     local Container = New("Frame", {
         Name = "Content",
         BackgroundTransparency = 1,
@@ -15216,7 +14064,6 @@ function Library:CreateLoading(LoadingInfo)
         Parent = SideBar,
     })
 
-    --// Top Bar \\--
     local TopBar = New("Frame", {
         Name = "TopBar",
         BackgroundTransparency = 1,
@@ -15282,7 +14129,6 @@ function Library:CreateLoading(LoadingInfo)
         Size = UDim2.new(1, 0, 0, 1),
     })
 
-    --// Loading Content Elements \\--
     local InnerContent = New("Frame", {
         Name = "InnerContent",
         BackgroundTransparency = 1,
@@ -15351,7 +14197,6 @@ function Library:CreateLoading(LoadingInfo)
         Parent = InnerContent,
     })
 
-    --// Progress Bar \\--
     local SliderBar = New("Frame", {
         BackgroundColor3 = "MainColor",
         Size = UDim2.new(0.7, 0, 0, 15),
@@ -15383,7 +14228,6 @@ function Library:CreateLoading(LoadingInfo)
         Parent = ProgressLabel,
     })
 
-    --// Sidebar Object \\--
     local SidebarScrolling = New("ScrollingFrame", {
         BackgroundTransparency = 1,
         BorderSizePixel = 0,
@@ -15432,7 +14276,6 @@ function Library:CreateLoading(LoadingInfo)
     setmetatable(SidebarObject, BaseGroupbox)
     Loading.Sidebar = SidebarObject
 
-    --// Error Frame \\--
     local ErrorFrame = New("Frame", {
         Name = "Error",
         BackgroundTransparency = 1,
@@ -15529,7 +14372,6 @@ function Library:CreateLoading(LoadingInfo)
         end
     end
 
-    --// Content Page \\--
     function Loading:RecalculateLoadingHeight()
         if not Loading.AutoResizeHeight then
             return
@@ -15604,7 +14446,6 @@ function Library:CreateLoading(LoadingInfo)
         Loading:SetCurrentStep(Loading.CurrentStep)
     end
 
-    --// Size \\--
     function Loading:SetWindowHeight(Height)
         Loading.WindowHeight = Height
         Loading:UpdateLayout()
@@ -15625,13 +14466,11 @@ function Library:CreateLoading(LoadingInfo)
         Loading:UpdateLayout()
     end
 
-    --// Sidebar \\--
     function Loading:ShowSidebarPage(Bool)
         Loading.ShowSidebar = Bool
         Loading:UpdateLayout()
     end
 
-    --// Error Page \\--
     function Loading:ShowErrorPage(Enabled)
         Loading.IsError = Enabled
         InnerContent.Visible = not Enabled
@@ -15773,7 +14612,6 @@ function Library:CreateLoading(LoadingInfo)
         Loading:UpdateLayout()
     end
 
-    --// Destroy/Continue \\--
     function Loading:Destroy()
         if RotationTween then
             StopTween(RotationTween, true)
@@ -15832,228 +14670,6 @@ Library:GiveSignal(Players.PlayerRemoving:Connect(OnPlayerChange))
 
 Library:GiveSignal(Teams.ChildAdded:Connect(OnTeamChange))
 Library:GiveSignal(Teams.ChildRemoved:Connect(OnTeamChange))
-
-
--- ── TokaiHub: Millennium-style Neon Scroll Fade System ────────────────────────
--- Ports millennium's _make_fade / _register_scroll_fade / _start_scroll_fade_loop
--- Shows accent-colored gradient glow at edges of scrollable areas
-
-Library._ScrollFades     = {}
-Library._ScrollFadeItems = setmetatable({}, { __mode = "k" })
-Library._ScrollFadeConn  = nil
-
-function Library:_MakeFade(Parent, Axis, Edge)
-    local Horizontal = Axis == "x"
-    local AtStart    = Edge == "start"
-    local Anchor, Pos, Size, FadePos, FadeAnchor, FadeRotation, FadeFull, FadeHidden
-
-    if Horizontal then
-        Size         = UDim2.fromOffset(24, 0) + UDim2.fromScale(0, 1)
-        FadeFull     = UDim2.fromScale(1, 1)
-        FadeHidden   = UDim2.new(1, 0, 0, 0)
-        FadeAnchor   = Vector2.new(0, 0.5)
-        FadePos      = UDim2.fromScale(0, 0.5)
-        FadeRotation = AtStart and 0 or 180
-        if AtStart then
-            Anchor = Vector2.new(0, 0)
-            Pos    = UDim2.fromOffset(0, 0)
-        else
-            Anchor = Vector2.new(1, 0)
-            Pos    = UDim2.fromScale(1, 0)
-        end
-    else
-        Size         = UDim2.new(1, 0, 0, 20)
-        FadeFull     = UDim2.fromScale(1, 1)
-        FadeHidden   = UDim2.new(0, 0, 1, 0)
-        FadeAnchor   = Vector2.new(0.5, 0)
-        FadePos      = UDim2.fromScale(0.5, 0)
-        FadeRotation = AtStart and 90 or 270
-        if AtStart then
-            Anchor = Vector2.new(0, 0)
-            Pos    = UDim2.fromOffset(0, 0)
-        else
-            Anchor = Vector2.new(0, 1)
-            Pos    = UDim2.fromScale(0, 1)
-        end
-    end
-
-    -- CanvasGroup for smooth fade in/out
-    local Group
-    pcall(function()
-        Group = New("CanvasGroup", {
-            AnchorPoint      = Anchor,
-            BackgroundTransparency = 1,
-            GroupTransparency = 1,
-            Position         = Pos,
-            Size             = Size,
-            Visible          = false,
-            ZIndex           = 8,
-            Active           = false,
-            Parent           = Parent,
-        })
-    end)
-    if not Group then
-        Group = New("Frame", {
-            AnchorPoint      = Anchor,
-            BackgroundTransparency = 1,
-            Position         = Pos,
-            Size             = Size,
-            Visible          = false,
-            ZIndex           = 8,
-            Active           = false,
-            Parent           = Parent,
-        })
-    end
-
-    -- Gradient fade frame (accent color)
-    local Fade = New("Frame", {
-        AnchorPoint          = FadeAnchor,
-        BackgroundColor3     = Library.Scheme.AccentColor,
-        BackgroundTransparency = 0.82,
-        BorderSizePixel      = 0,
-        Position             = FadePos,
-        Size                 = FadeHidden,
-        ZIndex               = 8,
-        Active               = false,
-        Parent               = Group,
-    })
-    New("UIGradient", {
-        Rotation     = FadeRotation,
-        Transparency = NumberSequence.new({
-            NumberSequenceKeypoint.new(0, 0),
-            NumberSequenceKeypoint.new(0.4, 0.55),
-            NumberSequenceKeypoint.new(1, 1),
-        }),
-        Parent = Fade,
-    })
-
-    Library._ScrollFadeItems[Group] = {
-        Fade       = Fade,
-        FadeFull   = FadeFull,
-        FadeHidden = FadeHidden,
-    }
-
-    return Group
-end
-
-function Library:_RegisterScrollFade(Frame, Axis, Edge, Getter)
-    if not Frame then return end
-    local Items = Library._ScrollFadeItems[Frame]
-    if Items and Items.Fade then
-        Items.Fade.Size = Items.FadeHidden
-    end
-    pcall(function() Frame.GroupTransparency = 1 end)
-    Frame.Visible = false
-    Library._ScrollFades[#Library._ScrollFades + 1] = {
-        Frame    = Frame,
-        Items    = Items,
-        Axis     = Axis,
-        Edge     = Edge,
-        Get      = Getter,
-        Active   = false,
-        AnimId   = 0,
-    }
-end
-
-local function EdgeActive(Scroll, Axis, Edge)
-    if typeof(Scroll) ~= "Instance" or not Scroll.Parent then return false end
-    local Pos    = Scroll.CanvasPosition
-    local Canvas = Scroll.AbsoluteCanvasSize
-    local Window = Scroll.AbsoluteWindowSize
-    if Axis == "x" then
-        local MaxX = Canvas.X - Window.X
-        if MaxX <= 1 then return false end
-        return Edge == "start" and Pos.X > 2 or Pos.X < MaxX - 2
-    else
-        local MaxY = Canvas.Y - Window.Y
-        if MaxY <= 1 then return false end
-        return Edge == "start" and Pos.Y > 2 or Pos.Y < MaxY - 2
-    end
-end
-
-function Library:_StartScrollFadeLoop()
-    if Library._ScrollFadeConn then return end
-    Library._ScrollFadeConn = game:GetService("RunService").RenderStepped:Connect(function()
-        if Library.Unloaded then
-            Library._ScrollFadeConn:Disconnect()
-            Library._ScrollFadeConn = nil
-            return
-        end
-        for i = 1, #Library._ScrollFades do
-            local E     = Library._ScrollFades[i]
-            local Frame = E.Frame
-            if Frame and Frame.Parent then
-                local Scroll = E.Get and E.Get()
-                local Active = EdgeActive(Scroll, E.Axis, E.Edge)
-                if Active ~= E.Active then
-                    E.Active  = Active
-                    E.AnimId  = (E.AnimId or 0) + 1
-                    local AId = E.AnimId
-
-                    if E.Tweens then
-                        for _, Tw in E.Tweens do pcall(function() Tw:Cancel() end) end
-                        E.Tweens = nil
-                    end
-
-                    if Active then Frame.Visible = true end
-
-                    local Info   = TweenInfo.new(Active and 0.18 or 0.15, Enum.EasingStyle.Quint, Active and Enum.EasingDirection.Out or Enum.EasingDirection.In)
-                    E.Tweens     = {}
-
-                    pcall(function()
-                        E.Tweens[1] = TweenService:Create(Frame, Info, { GroupTransparency = Active and 0 or 1 })
-                    end)
-                    if E.Items and E.Items.Fade then
-                        E.Tweens[#E.Tweens + 1] = TweenService:Create(E.Items.Fade, Info, {
-                            Size             = Active and E.Items.FadeFull or E.Items.FadeHidden,
-                            BackgroundColor3 = Library.Scheme.AccentColor,
-                        })
-                    end
-
-                    for _, Tw in E.Tweens do if Tw then Tw:Play() end end
-
-                    if E.Tweens[1] then
-                        E.Tweens[1].Completed:Connect(function()
-                            if E.AnimId ~= AId or E.Active or not Frame or not Frame.Parent then return end
-                            pcall(function() Frame.GroupTransparency = 1 end)
-                            if E.Items and E.Items.Fade then
-                                E.Items.Fade.Size = E.Items.FadeHidden
-                            end
-                            Frame.Visible = false
-                        end)
-                    end
-                end
-            end
-        end
-    end)
-    table.insert(Library.Signals, Library._ScrollFadeConn)
-end
-
-function Library:_SetupScrollFades(SidebarScroll, ChipBarScroll)
-    -- Sidebar: top and bottom vertical fades
-    if SidebarScroll then
-        Library:_RegisterScrollFade(Library:_MakeFade(SidebarScroll, "y", "start"), "y", "start", function() return SidebarScroll end)
-        Library:_RegisterScrollFade(Library:_MakeFade(SidebarScroll, "y", "end"),   "y", "end",   function() return SidebarScroll end)
-    end
-    -- ChipBar: left and right horizontal fades (millennium multi_holder x-axis)
-    if ChipBarScroll then
-        Library:_RegisterScrollFade(Library:_MakeFade(ChipBarScroll, "x", "start"), "x", "start", function()
-            -- Find the active ChipStrip inside ChipBarScroll
-            for _, child in ChipBarScroll:GetChildren() do
-                if child:IsA("ScrollingFrame") then return child end
-            end
-            return ChipBarScroll
-        end)
-        Library:_RegisterScrollFade(Library:_MakeFade(ChipBarScroll, "x", "end"), "x", "end", function()
-            for _, child in ChipBarScroll:GetChildren() do
-                if child:IsA("ScrollingFrame") then return child end
-            end
-            return ChipBarScroll
-        end)
-    end
-    Library:_StartScrollFadeLoop()
-end
--- ─────────────────────────────────────────────────────────────────────────────
 
 function Library:Unload()
     Library.Unloaded = true
