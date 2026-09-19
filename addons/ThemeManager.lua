@@ -59,7 +59,7 @@ local ThemeManager = {
     BuiltInThemes = {
         ["Default"] = {
             1,
-            { FontColor = "fff0f5", MainColor = "3d1a2e", AccentColor = "ff6eb4", BackgroundColor = "2a0f1f", OutlineColor = "6b2d4e", BackgroundImage = "" },
+            { FontColor = "ffffff", MainColor = "191919", AccentColor = "7d55ff", BackgroundColor = "0f0f0f", OutlineColor = "282828", BackgroundImage = "" },
         },
         ["BBot"] = {
             2,
@@ -128,11 +128,7 @@ local ThemeManager = {
         ["Material"] = {
             18,
             { FontColor = "eeffff", MainColor = "212121", AccentColor = "82aaff", BackgroundColor = "151515", OutlineColor = "424242", BackgroundImage = "" },
-        },
-        ["Sakura"] = {
-            19,
-            { FontColor = "fff0f5", MainColor = "3d1a2e", AccentColor = "ff6eb4", BackgroundColor = "2a0f1f", OutlineColor = "6b2d4e", BackgroundImage = "" },
-        },
+        }
     }
 }
 
